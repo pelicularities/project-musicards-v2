@@ -1,3 +1,6 @@
+// REACT AND FRIENDS
+import { Link as RouterLink } from "react-router-dom";
+
 // MATERIAL UI
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -17,11 +20,25 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  toolbar: {
+    display: "grid",
+    gridTemplateColumns: "1fr 2fr 1fr",
+  },
+  leftMenu: {
+    width: "auto",
+    margin: "auto auto auto 0",
+  },
+  rightMenu: {
+    width: "auto",
+    margin: "auto 0 auto auto",
+  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1,
+    color: "#FFFFFF",
+    textDecoration: "none",
+    fontWeight: "bold",
   },
 }));
 
@@ -30,26 +47,33 @@ function NavBar({ user = null }) {
   return (
     <div className={classes.root}>
       <AppBar position="static" variant="outlined">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            className={classes.menuButton}
+        <Toolbar className={classes.toolbar}>
+          <div className={classes.leftMenu}>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              className={classes.menuButton}
+            >
+              <FontAwesomeIcon icon={faBars} />
+            </IconButton>
+          </div>
+          <Typography
+            component={RouterLink}
+            variant="h4"
+            className={classes.title}
           >
-            <FontAwesomeIcon icon={faBars} />
-          </IconButton>
-          <Typography variant="h4" className={classes.title}>
             Musicards
           </Typography>
-
-          {user ? (
-            <UserMenu user={user} />
-          ) : (
-            <Button color="inherit" href="/login">
-              Login
-            </Button>
-          )}
+          <div className={classes.rightMenu}>
+            {user ? (
+              <UserMenu user={user} />
+            ) : (
+              <Button color="inherit" href="/login">
+                Login
+              </Button>
+            )}
+          </div>
         </Toolbar>
       </AppBar>
     </div>

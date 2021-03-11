@@ -1,17 +1,26 @@
 // REACT AND FRIENDS
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 // MATERIAL UI
 import IconButton from "@material-ui/core/IconButton";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import { makeStyles } from "@material-ui/core/styles";
 
 // FONTAWESOME
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
+const useStyles = makeStyles({
+  userMenu: {
+    display: "flex",
+    flexDirection: "column",
+  },
+});
+
 function UserMenu({ user = null }) {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -50,7 +59,7 @@ function UserMenu({ user = null }) {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem component={Link} to="/logout" onClick={handleClose}>
+        <MenuItem component={RouterLink} to="/logout" onClick={handleClose}>
           Logout
         </MenuItem>
       </Menu>

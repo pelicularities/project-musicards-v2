@@ -1,63 +1,69 @@
 // REACT AND FRIENDS
 import React, { useState } from "react";
-import { Redirect, Link as RouterLink } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 // MATERIAL UI
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
-  bottomSpacing: {
+  formSpacing: {
     marginBottom: "1rem",
   },
 });
 
-function Login({ updateUser }) {
+function NewUser() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [redirectToMain, setRedirectToMain] = useState(false);
   const classes = useStyles();
 
+  const validateInputs = (username, password) => {
+    // username must be 3 characters or longer, letters only
+    // password must be 8 characters or longer
+    if (username.length < 3) return false;
+    if (password.length < 8) return false;
+    return /^[A-Za-z]+$/.test(username);
+  };
+
   const handleSubmit = async () => {
-    const requestUrl =
-      "https://express-musicards-test.herokuapp.com/users/login";
-    const requestBody = {
-      username: username,
-      password: password,
-    };
-    const requestOptions = {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    };
-    const response = await fetch(requestUrl, requestOptions);
-    console.log(response);
-    console.log(response.status);
-    if (response.status === 200) {
-      console.log("successful login");
-      updateUser(username);
-      setRedirectToMain(true);
+    if (validateInputs(username, password)) {
+      const requestUrl = "https://express-musicards-test.herokuapp.com/users/";
+      const requestBody = {
+        username: username,
+        password: password,
+      };
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      };
+      const response = await fetch(requestUrl, requestOptions);
+      console.log(response);
+      console.log(response.status);
+      if (response.status === 201) {
+        console.log("successfully created");
+        setRedirectToMain(true);
+      }
     } else {
-      console.log("invalid credentials");
+      console.log("nope");
     }
   };
 
   return (
     <div>
       {redirectToMain && <Redirect to="/" />}
-      <h2>User Login</h2>
-      <form className={classes.bottomSpacing}>
+      <h2>User Sign-up</h2>
+      <form>
         <div>
           <TextField
             label="Username"
             autoComplete="username"
             variant="outlined"
-            className={classes.bottomSpacing}
+            className={classes.formSpacing}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -68,7 +74,7 @@ function Login({ updateUser }) {
             type="password"
             autoComplete="new-password"
             variant="outlined"
-            className={classes.bottomSpacing}
+            className={classes.formSpacing}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -80,18 +86,12 @@ function Login({ updateUser }) {
             disableElevation
             onClick={handleSubmit}
           >
-            Log In
+            Sign Up
           </Button>
         </div>
       </form>
-      <div>
-        No account yet?{" "}
-        <Link component={RouterLink} to="/users/new">
-          Sign up!
-        </Link>
-      </div>
     </div>
   );
 }
 
-export default Login;
+export default NewUser;
