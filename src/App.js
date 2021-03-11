@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+// REACT AND FRIENDS
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Route, Link } from "react-router-dom";
+
+// THEMING
+import "./styles/App.css";
+import theme from "./styles/theme";
+import { ThemeProvider } from "@material-ui/core/styles";
+
+// EXTERNAL COMPONENTS
+
+// INTERNAL COMPONENTS
+import NavBar from "./components/NavBar";
+import Login from "./components/Login";
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  const updateUser = (user) => {
+    setUser(user);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <NavBar user={user} updateUser={updateUser} />
+        <BrowserRouter>
+          <Route
+            exact
+            path="/login"
+            render={() => <Login updateUser={updateUser} />}
+          />
+        </BrowserRouter>
+      </div>
+    </ThemeProvider>
   );
 }
 
