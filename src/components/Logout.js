@@ -1,8 +1,12 @@
 // REACT AND FRIENDS
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 
-function Logout({ updateUser }) {
+// INTERNAL IMPORTS
+import UserContext from "../contexts/UserContext";
+
+function Logout() {
+  const [user, setUser] = useContext(UserContext);
   const [redirectToMain, setRedirectToMain] = useState(false);
 
   useEffect(() => {
@@ -18,7 +22,7 @@ function Logout({ updateUser }) {
     };
     fetch(requestUrl, requestOptions).then((response) => {
       if (response.status === 200) {
-        updateUser(null);
+        setUser(null);
         setRedirectToMain(true);
       }
     });

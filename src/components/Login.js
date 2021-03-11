@@ -1,5 +1,5 @@
 // REACT AND FRIENDS
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect, Link as RouterLink } from "react-router-dom";
 
 // MATERIAL UI
@@ -8,13 +8,17 @@ import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 
+// INTERNAL IMPORTS
+import UserContext from "../contexts/UserContext";
+
 const useStyles = makeStyles({
   bottomSpacing: {
     marginBottom: "1rem",
   },
 });
 
-function Login({ updateUser }) {
+function Login() {
+  const [user, setUser] = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [redirectToMain, setRedirectToMain] = useState(false);
@@ -40,7 +44,7 @@ function Login({ updateUser }) {
     console.log(response.status);
     if (response.status === 200) {
       console.log("successful login");
-      updateUser(username);
+      setUser(username);
       setRedirectToMain(true);
     } else {
       console.log("invalid credentials");

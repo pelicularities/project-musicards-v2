@@ -1,4 +1,5 @@
 // REACT AND FRIENDS
+import React, { useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 // MATERIAL UI
@@ -13,7 +14,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
-// INTERNAL COMPONENTS
+// INTERNAL IMPORTS
+import UserContext from "../contexts/UserContext";
 import UserMenu from "./UserMenu";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NavBar({ user = null }) {
+function NavBar() {
+  const [user] = useContext(UserContext);
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -60,6 +63,7 @@ function NavBar({ user = null }) {
           </div>
           <Typography
             component={RouterLink}
+            to="/"
             variant="h4"
             className={classes.title}
           >
@@ -67,7 +71,7 @@ function NavBar({ user = null }) {
           </Typography>
           <div className={classes.rightMenu}>
             {user ? (
-              <UserMenu user={user} />
+              <UserMenu />
             ) : (
               <Button color="inherit" href="/login">
                 Login
