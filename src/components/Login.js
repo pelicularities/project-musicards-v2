@@ -36,6 +36,7 @@ function Login({ updateUser }) {
     console.log(response.status);
     if (response.status === 200) {
       console.log("successful login");
+      updateUser(username);
       setRedirectToMain(true);
     } else {
       console.log("invalid credentials");
