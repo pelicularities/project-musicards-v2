@@ -74,7 +74,7 @@ function NavBar() {
             {user ? (
               <UserMenu />
             ) : (
-              <Button color="inherit" href="/login">
+              <Button component={RouterLink} color="inherit" to="/login">
                 Login
               </Button>
             )}
