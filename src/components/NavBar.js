@@ -18,6 +18,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import UserContext from "../contexts/UserContext";
 import UserMenu from "./UserMenu";
 
+// COMPONENT STYLE
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,

@@ -1,5 +1,5 @@
 // REACT AND FRIENDS
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 
 // MATERIAL UI
@@ -7,6 +7,10 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
+// INTERNAL IMPORTS
+import UserContext from "../contexts/UserContext";
+
+// COMPONENT STYLE
 const useStyles = makeStyles({
   formSpacing: {
     marginBottom: "1rem",
@@ -14,6 +18,7 @@ const useStyles = makeStyles({
 });
 
 function NewUser() {
+  const [user, setUser] = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [redirectToMain, setRedirectToMain] = useState(false);
@@ -45,7 +50,7 @@ function NewUser() {
       console.log(response);
       console.log(response.status);
       if (response.status === 201) {
-        console.log("successfully created");
+        setUser(username);
         setRedirectToMain(true);
       }
     } else {
@@ -56,7 +61,7 @@ function NewUser() {
   return (
     <div>
       {redirectToMain && <Redirect to="/" />}
-      <h2>User Sign-up</h2>
+      <h2>User Sign Up</h2>
       <form>
         <div>
           <TextField
