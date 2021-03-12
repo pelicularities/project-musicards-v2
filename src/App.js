@@ -15,6 +15,7 @@ import Login from "./components/Login";
 import Logout from "./components/Logout";
 import NewUser from "./components/NewUser";
 import AllDecks from "./components/AllDecks";
+import ViewDeck from "./components/ViewDeck";
 
 // COMPONENT STYLE
 import { makeStyles } from "@material-ui/core/styles";
@@ -40,6 +41,7 @@ function App() {
             <div className={classes.container}>
               <Route exact path="/" render={() => "main page"} />
               <Route exact path="/decks" render={() => <AllDecks />} />
+              <Route exact path="/decks/:deckId" component={ViewDeck} />
               <Route exact path="/users/new" render={() => <NewUser />} />
               <Route exact path="/login" render={() => <Login />} />
               <Route exact path="/logout" render={() => <Logout />} />

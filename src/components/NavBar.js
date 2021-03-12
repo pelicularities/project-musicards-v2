@@ -54,8 +54,9 @@ function NavBar() {
         <Toolbar className={classes.toolbar}>
           <div className={classes.leftMenu}>
             <Button
+              component={RouterLink}
               color="inherit"
-              href="/decks"
+              to="/decks"
               className={classes.menuButton}
             >
               All decks
