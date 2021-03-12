@@ -93,8 +93,9 @@ function ViewDeck(props) {
 
   return (
     <Grid container spacing={2}>
-      <Grid item key="toolbar" xs={12}>
+      <Grid item key="deckInfo" xs={12}>
         <h2>{deck.title}</h2>
+        {deck.description || <em>this deck has no description</em>}
       </Grid>
       <Grid item key="toolbar" xs={12}>
         <div className={classes.toolbar}>

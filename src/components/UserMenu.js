@@ -54,6 +54,9 @@ function UserMenu() {
         open={open}
         onClose={handleClose}
       >
+        <MenuItem component={RouterLink} to="/decks/new" onClick={handleClose}>
+          New Deck
+        </MenuItem>
         <MenuItem component={RouterLink} to="/logout" onClick={handleClose}>
           Logout
         </MenuItem>
