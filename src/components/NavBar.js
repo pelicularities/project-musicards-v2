@@ -53,14 +53,13 @@ function NavBar() {
       <AppBar position="static" variant="outlined">
         <Toolbar className={classes.toolbar}>
           <div className={classes.leftMenu}>
-            <IconButton
-              edge="start"
+            <Button
               color="inherit"
-              aria-label="menu"
+              href="/decks"
               className={classes.menuButton}
             >
-              <FontAwesomeIcon icon={faBars} />
-            </IconButton>
+              All decks
+            </Button>
           </div>
           <Typography
             component={RouterLink}

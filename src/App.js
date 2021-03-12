@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
 // THEMING
-import "./styles/App.css";
 import theme from "./styles/theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 
@@ -15,20 +14,36 @@ import NavBar from "./components/NavBar";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import NewUser from "./components/NewUser";
+import AllDecks from "./components/AllDecks";
+
+// COMPONENT STYLE
+import { makeStyles } from "@material-ui/core/styles";
+const useStyles = makeStyles({
+  app: {
+    textAlign: "center",
+  },
+  container: {
+    margin: theme.spacing(2),
+  },
+});
 
 function App() {
+  const classes = useStyles();
   const user = useState(null);
 
   return (
     <ThemeProvider theme={theme}>
       <UserContext.Provider value={user}>
         <BrowserRouter>
-          <div className="App">
+          <div className={classes.app}>
             <NavBar />
-            <Route exact path="/" render={() => "main page"} />
-            <Route exact path="/users/new" render={() => <NewUser />} />
-            <Route exact path="/login" render={() => <Login />} />
-            <Route exact path="/logout" render={() => <Logout />} />
+            <div className={classes.container}>
+              <Route exact path="/" render={() => "main page"} />
+              <Route exact path="/decks" render={() => <AllDecks />} />
+              <Route exact path="/users/new" render={() => <NewUser />} />
+              <Route exact path="/login" render={() => <Login />} />
+              <Route exact path="/logout" render={() => <Logout />} />
+            </div>
           </div>
         </BrowserRouter>
       </UserContext.Provider>
