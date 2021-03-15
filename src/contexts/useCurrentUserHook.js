@@ -8,17 +8,16 @@ export const useCurrentUserHook = () => {
     const requestUrl = `${REACT_APP_API_URL}/users/me`;
 
     const requestOptions = {
+      method: "GET",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
     };
-    fetch(requestUrl, requestOptions).then((response) => {
-      console.log(response.body);
-      if (response.status === 200) {
-        setUser(response.body.user);
-      }
-    });
+    fetch(requestUrl, requestOptions)
+      .then((response) => response.json())
+      .then((user) => setUser(user))
+      .catch((err) => console.error);
   }, []);
 
   return {

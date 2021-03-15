@@ -33,7 +33,6 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const { user, setUser } = useCurrentUserHook();
-  console.log("user", user);
 
   return (
     <ThemeProvider theme={theme}>

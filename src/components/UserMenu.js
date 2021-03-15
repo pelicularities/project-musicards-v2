@@ -29,9 +29,9 @@ function UserMenu() {
 
   return (
     <div>
-      {user}
+      {user.username}
       <IconButton
-        aria-label={`${user}'s account`}
+        aria-label={`${user.name}'s account`}
         aria-controls="menu-appbar"
         aria-haspopup="true"
         color="inherit"
