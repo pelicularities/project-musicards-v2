@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 // INTERNAL IMPORTS
 import UserContext from "../contexts/UserContext";
+import { REACT_APP_API_URL } from "../constants/api";
 
 const useStyles = makeStyles({
   bottomSpacing: {
@@ -25,8 +26,7 @@ function Login() {
   const classes = useStyles();
 
   const handleSubmit = async () => {
-    const requestUrl =
-      "https://express-musicards-test.herokuapp.com/users/login";
+    const requestUrl = `${REACT_APP_API_URL}/users/login`;
     const requestBody = {
       username: username,
       password: password,

@@ -5,12 +5,13 @@ import { Redirect } from "react-router-dom";
 // MATERIAL UI
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
 
 // INTERNAL IMPORTS
 import UserContext from "../contexts/UserContext";
+import { REACT_APP_API_URL } from "../constants/api";
 
 // COMPONENT STYLE
+import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   formSpacing: {
     marginBottom: "1rem",
@@ -27,7 +28,7 @@ function NewDeck() {
 
   const handleSubmit = async () => {
     if (title) {
-      const requestUrl = "https://express-musicards-test.herokuapp.com/decks/";
+      const requestUrl = `${REACT_APP_API_URL}/decks/`;
       const requestBody = {
         title: title,
       };

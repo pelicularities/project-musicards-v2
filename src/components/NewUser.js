@@ -5,12 +5,13 @@ import { Redirect } from "react-router-dom";
 // MATERIAL UI
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
 
 // INTERNAL IMPORTS
 import UserContext from "../contexts/UserContext";
+import { REACT_APP_API_URL } from "../constants/api";
 
 // COMPONENT STYLE
+import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   formSpacing: {
     marginBottom: "1rem",
@@ -34,7 +35,7 @@ function NewUser() {
 
   const handleSubmit = async () => {
     if (validateInputs(username, password)) {
-      const requestUrl = "https://express-musicards-test.herokuapp.com/users/";
+      const requestUrl = `${REACT_APP_API_URL}/users/`;
       const requestBody = {
         username: username,
         password: password,

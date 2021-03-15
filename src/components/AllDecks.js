@@ -8,10 +8,13 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
+
+// INTERNAL IMPORTS
+import { REACT_APP_API_URL } from "../constants/api";
 
 // THEMING
 import theme from "../styles/theme";
+import { makeStyles } from "@material-ui/core/styles";
 
 // COMPONENT STYLE
 const useStyles = makeStyles({
@@ -81,7 +84,7 @@ function AllDecks() {
   };
 
   useEffect(() => {
-    const queryUrl = "https://express-musicards-test.herokuapp.com/decks";
+    const queryUrl = `${REACT_APP_API_URL}/decks`;
     fetch(queryUrl)
       .then((response) => response.json())
       .then((json) => {

@@ -4,14 +4,14 @@ import { Redirect } from "react-router-dom";
 
 // INTERNAL IMPORTS
 import UserContext from "../contexts/UserContext";
+import { REACT_APP_API_URL } from "../constants/api";
 
 function Logout() {
   const [user, setUser] = useContext(UserContext);
   const [redirectToMain, setRedirectToMain] = useState(false);
 
   useEffect(() => {
-    const requestUrl =
-      "https://express-musicards-test.herokuapp.com/users/logout";
+    const requestUrl = `${REACT_APP_API_URL}/users/logout`;
     const requestOptions = {
       method: "POST",
       credentials: "include",

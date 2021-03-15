@@ -5,7 +5,6 @@ import { Link as RouterLink } from "react-router-dom";
 // MATERIAL UI
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
 
 // FONTAWESOME
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,9 +14,11 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 // INTERNAL IMPORTS
 import Flashcard from "./Flashcard";
 import Authorization from "./Authorization";
+import { REACT_APP_API_URL } from "../constants/api";
 
 // THEMING
 import theme from "../styles/theme";
+import { makeStyles } from "@material-ui/core/styles";
 
 // COMPONENT STYLE
 const useStyles = makeStyles({
@@ -76,14 +77,14 @@ function ViewDeck(props) {
   };
 
   useEffect(() => {
-    const deckQueryUrl = `https://express-musicards-test.herokuapp.com/decks/${deckId}`;
+    const deckQueryUrl = `${REACT_APP_API_URL}/decks/${deckId}`;
     fetch(deckQueryUrl)
       .then((response) => response.json())
       .then((deckJson) => {
         setDeck(deckJson);
       });
 
-    const cardsQueryUrl = `https://express-musicards-test.herokuapp.com/decks/${deckId}/cards`;
+    const cardsQueryUrl = `${REACT_APP_API_URL}/decks/${deckId}/cards`;
     fetch(cardsQueryUrl)
       .then((response) => response.json())
       .then((cardsJson) => {

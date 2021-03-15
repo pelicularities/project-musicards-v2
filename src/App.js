@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 // THEMING
 import theme from "./styles/theme";
 import { ThemeProvider } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 // EXTERNAL COMPONENTS
 
@@ -19,7 +20,6 @@ import ViewDeck from "./components/ViewDeck";
 import NewDeck from "./components/NewDeck";
 
 // COMPONENT STYLE
-import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   app: {
     textAlign: "center",
