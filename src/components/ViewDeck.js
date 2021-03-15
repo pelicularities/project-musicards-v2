@@ -19,6 +19,8 @@ import { REACT_APP_API_URL } from "../constants/api";
 // THEMING
 import theme from "../styles/theme";
 import { makeStyles } from "@material-ui/core/styles";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
 // COMPONENT STYLE
 const useStyles = makeStyles({
@@ -59,6 +61,7 @@ const useStyles = makeStyles({
 });
 
 function ViewDeck(props) {
+  const user = useContext(UserContext);
   const deckId = props.match.params.deckId;
   const [deck, setDeck] = useState({});
   const [cards, setCards] = useState(null);

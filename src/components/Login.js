@@ -21,8 +21,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Login() {
-  const [user, setUser] = useContext(UserContext);
+function Login({ setUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [redirectToMain, setRedirectToMain] = useState(false);
