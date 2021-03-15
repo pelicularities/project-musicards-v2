@@ -8,6 +8,9 @@ import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 
+// EXTERNAL IMPORTS
+import Cookies from "js-cookie";
+
 // INTERNAL IMPORTS
 import UserContext from "../contexts/UserContext";
 import { REACT_APP_API_URL } from "../constants/api";
@@ -40,14 +43,12 @@ function Login() {
       body: JSON.stringify(requestBody),
     };
     const response = await fetch(requestUrl, requestOptions);
-    console.log(response);
-    console.log(response.status);
     if (response.status === 200) {
-      console.log("successful login");
       setUser(username);
       setRedirectToMain(true);
     } else {
       console.log("invalid credentials");
+      // TODO: handle login failure
     }
   };
 

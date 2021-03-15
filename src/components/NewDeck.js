@@ -45,7 +45,7 @@ function NewDeck() {
       console.log(response);
       console.log(response.status);
       if (response.status === 201) {
-        const newDeck = response.json();
+        const newDeck = await response.json();
         setDeckId(newDeck._id);
         setRedirectToDeck(true);
       }
