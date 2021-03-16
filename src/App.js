@@ -19,6 +19,7 @@ import AllDecks from "./components/AllDecks";
 import ViewDeck from "./components/ViewDeck";
 import NewDeck from "./components/NewDeck";
 import { useCurrentUserHook } from "./contexts/useCurrentUserHook";
+import NewCard from "./components/NewCard";
 
 // COMPONENT STYLE
 const useStyles = makeStyles({
@@ -46,6 +47,11 @@ function App() {
                 <Route exact path="/decks" render={() => <AllDecks />} />
                 <Route exact path="/decks/new" render={() => <NewDeck />} />
                 <Route exact path="/decks/:deckId" component={ViewDeck} />
+                <Route
+                  exact
+                  path="/decks/:deckId/cards/new"
+                  component={NewCard}
+                />
                 <Route exact path="/users/new" render={() => <NewUser />} />
                 <Route
                   exact
