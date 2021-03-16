@@ -14,14 +14,15 @@ const useStyles = makeStyles({
 });
 
 function Authorization(props) {
-  // looks for a user prop containing a username
-  // if the user prop matches the username from the context,
+  // looks for a user prop containing a user ID
+  // if the user prop matches the user ID from the context,
   // renders the children of this component
   // hides the children otherwise
   const user = useContext(UserContext);
+  // console.log("authorised user id", props);
+  // console.log("actual user ID", user);
   const classes = useStyles();
   if (user === props.user) {
-    // potentially user.username instead?
     return props.children;
   }
   return <div className={classes.hideChildren}></div>;

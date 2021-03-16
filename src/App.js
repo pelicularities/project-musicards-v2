@@ -2,6 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+// REDUX
+import { Provider } from "react-redux";
+import store from "./store";
+
 // THEMING
 import theme from "./styles/theme";
 import { ThemeProvider } from "@material-ui/core/styles";
@@ -38,35 +42,37 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <UserContext.Provider value={user}>
-        <BrowserRouter>
-          <div className={classes.app}>
-            <NavBar />
-            <div className={classes.container}>
-              <Switch>
-                <Route exact path="/" render={() => "main page"} />
-                <Route exact path="/decks" render={() => <AllDecks />} />
-                <Route exact path="/decks/new" render={() => <NewDeck />} />
-                <Route exact path="/decks/:deckId" component={ViewDeck} />
-                <Route
-                  exact
-                  path="/decks/:deckId/cards/new"
-                  component={NewCard}
-                />
-                <Route exact path="/users/new" render={() => <NewUser />} />
-                <Route
-                  exact
-                  path="/login"
-                  render={() => <Login setUser={setUser} />}
-                />
-                <Route
-                  exact
-                  path="/logout"
-                  render={() => <Logout setUser={setUser} />}
-                />
-              </Switch>
+        <Provider store={store}>
+          <BrowserRouter>
+            <div className={classes.app}>
+              <NavBar />
+              <div className={classes.container}>
+                <Switch>
+                  <Route exact path="/" render={() => "main page"} />
+                  <Route exact path="/decks" render={() => <AllDecks />} />
+                  <Route exact path="/decks/new" render={() => <NewDeck />} />
+                  <Route exact path="/decks/:deckId" component={ViewDeck} />
+                  <Route
+                    exact
+                    path="/decks/:deckId/cards/new"
+                    component={NewCard}
+                  />
+                  <Route exact path="/users/new" render={() => <NewUser />} />
+                  <Route
+                    exact
+                    path="/login"
+                    render={() => <Login setUser={setUser} />}
+                  />
+                  <Route
+                    exact
+                    path="/logout"
+                    render={() => <Logout setUser={setUser} />}
+                  />
+                </Switch>
+              </div>
             </div>
-          </div>
-        </BrowserRouter>
+          </BrowserRouter>
+        </Provider>
       </UserContext.Provider>
     </ThemeProvider>
   );

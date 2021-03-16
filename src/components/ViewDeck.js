@@ -2,6 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
+// REDUX
+import { connect } from "react-redux";
+import { getCardsFromAPI } from "../actions";
+
 // MATERIAL UI
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -12,15 +16,13 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 // INTERNAL IMPORTS
+import { REACT_APP_API_URL } from "../constants/api";
 import Flashcard from "./Flashcard";
 import Authorization from "./Authorization";
-import { REACT_APP_API_URL } from "../constants/api";
 
 // THEMING
 import theme from "../styles/theme";
 import { makeStyles } from "@material-ui/core/styles";
-import { useContext } from "react";
-import UserContext from "../contexts/UserContext";
 
 // COMPONENT STYLE
 const useStyles = makeStyles({
@@ -61,10 +63,9 @@ const useStyles = makeStyles({
 });
 
 function ViewDeck(props) {
-  const user = useContext(UserContext);
   const deckId = props.match.params.deckId;
   const [deck, setDeck] = useState({});
-  const [cards, setCards] = useState(null);
+  // const [cards, setCards] = useState(null);
   const classes = useStyles();
 
   const prepareCards = (cards) => {
@@ -87,12 +88,14 @@ function ViewDeck(props) {
         setDeck(deckJson);
       });
 
-    const cardsQueryUrl = `${REACT_APP_API_URL}/decks/${deckId}/cards`;
-    fetch(cardsQueryUrl)
-      .then((response) => response.json())
-      .then((cardsJson) => {
-        setCards(cardsJson);
-      });
+    props.getCardsFromAPI(deckId);
+
+    // const cardsQueryUrl = `${REACT_APP_API_URL}/decks/${deckId}/cards`;
+    // fetch(cardsQueryUrl)
+    //   .then((response) => response.json())
+    //   .then((cardsJson) => {
+    //     setCards(cardsJson);
+    //   });
   }, []);
 
   return (
@@ -128,9 +131,17 @@ function ViewDeck(props) {
           </Authorization>
         </div>
       </Grid>
-      {prepareCards(cards)}
+      {prepareCards(props.cards)}
     </Grid>
   );
 }
 
-export default ViewDeck;
+const mapStateToProps = (state) => {
+  return { cards: state.cards };
+};
+
+const mapDispatchToProps = {
+  getCardsFromAPI,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ViewDeck);
