@@ -18,9 +18,10 @@ function Authorization(props) {
   // if the user prop matches the username from the context,
   // renders the children of this component
   // hides the children otherwise
-  const [user] = useContext(UserContext);
+  const user = useContext(UserContext);
   const classes = useStyles();
   if (user === props.user) {
+    // potentially user.username instead?
     return props.children;
   }
   return <div className={classes.hideChildren}></div>;

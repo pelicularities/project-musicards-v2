@@ -15,7 +15,7 @@ import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import UserContext from "../contexts/UserContext";
 
 function UserMenu() {
-  const [user] = useContext(UserContext);
+  const user = useContext(UserContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -29,9 +29,9 @@ function UserMenu() {
 
   return (
     <div>
-      {user}
+      {user.username}
       <IconButton
-        aria-label={`${user}'s account`}
+        aria-label={`${user.name}'s account`}
         aria-controls="menu-appbar"
         aria-haspopup="true"
         color="inherit"

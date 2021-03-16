@@ -3,11 +3,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 
 // INTERNAL IMPORTS
-import UserContext from "../contexts/UserContext";
 import { REACT_APP_API_URL } from "../constants/api";
 
-function Logout() {
-  const [user, setUser] = useContext(UserContext);
+function Logout({ setUser }) {
   const [redirectToMain, setRedirectToMain] = useState(false);
 
   useEffect(() => {

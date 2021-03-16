@@ -1,5 +1,5 @@
 // REACT AND FRIENDS
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // THEMING
@@ -18,6 +18,7 @@ import NewUser from "./components/NewUser";
 import AllDecks from "./components/AllDecks";
 import ViewDeck from "./components/ViewDeck";
 import NewDeck from "./components/NewDeck";
+import { useCurrentUserHook } from "./contexts/useCurrentUserHook";
 
 // COMPONENT STYLE
 const useStyles = makeStyles({
@@ -31,7 +32,7 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
-  const user = useState(null);
+  const { user, setUser } = useCurrentUserHook();
 
   return (
     <ThemeProvider theme={theme}>
@@ -46,8 +47,16 @@ function App() {
                 <Route exact path="/decks/new" render={() => <NewDeck />} />
                 <Route exact path="/decks/:deckId" component={ViewDeck} />
                 <Route exact path="/users/new" render={() => <NewUser />} />
-                <Route exact path="/login" render={() => <Login />} />
-                <Route exact path="/logout" render={() => <Logout />} />
+                <Route
+                  exact
+                  path="/login"
+                  render={() => <Login setUser={setUser} />}
+                />
+                <Route
+                  exact
+                  path="/logout"
+                  render={() => <Logout setUser={setUser} />}
+                />
               </Switch>
             </div>
           </div>

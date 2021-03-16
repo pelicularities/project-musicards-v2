@@ -19,7 +19,6 @@ const useStyles = makeStyles({
 });
 
 function NewDeck() {
-  const [user] = useContext(UserContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [deckId, setDeckId] = useState(null);
