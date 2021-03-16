@@ -22,7 +22,7 @@ function Authorization(props) {
   // console.log("authorised user id", props);
   // console.log("actual user ID", user);
   const classes = useStyles();
-  if (user === props.user) {
+  if (user.name === props.user) {
     return props.children;
   }
   return <div className={classes.hideChildren}></div>;

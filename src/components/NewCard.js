@@ -2,6 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { Redirect, Link as RouterLink } from "react-router-dom";
 
+// REDUX
+import { connect } from "react-redux";
+import { getCardsFromAPI } from "../actions";
+
 // MATERIAL UI
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -238,4 +242,8 @@ function NewCard(props) {
   );
 }
 
-export default NewCard;
+const mapDispatchToProps = {
+  getCardsFromAPI,
+};
+
+export default connect(null, mapDispatchToProps)(NewCard);
