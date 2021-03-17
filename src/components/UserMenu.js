@@ -19,8 +19,6 @@ function UserMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  console.log(user);
-
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
