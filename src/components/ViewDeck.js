@@ -108,7 +108,7 @@ function ViewDeck(props) {
         <div className={classes.toolbar}>
           <Button
             component={RouterLink}
-            to="/play"
+            to={`/decks/${deckId}/play`}
             variant="contained"
             color="primary"
             disableElevation

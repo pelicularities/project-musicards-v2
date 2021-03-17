@@ -22,8 +22,9 @@ import NewUser from "./components/NewUser";
 import AllDecks from "./components/AllDecks";
 import ViewDeck from "./components/ViewDeck";
 import NewDeck from "./components/NewDeck";
-import { useCurrentUserHook } from "./contexts/useCurrentUserHook";
 import NewCard from "./components/NewCard";
+import PlayDeck from "./components/PlayDeck";
+import { useCurrentUserHook } from "./contexts/useCurrentUserHook";
 
 // COMPONENT STYLE
 const useStyles = makeStyles({
@@ -56,6 +57,11 @@ function App() {
                     exact
                     path="/decks/:deckId/cards/new"
                     component={NewCard}
+                  />
+                  <Route
+                    exact
+                    path="/decks/:deckId/play"
+                    component={PlayDeck}
                   />
                   <Route exact path="/users/new" render={() => <NewUser />} />
                   <Route

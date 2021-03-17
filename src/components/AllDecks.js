@@ -9,6 +9,11 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 
+// FONTAWESOME
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+
 // INTERNAL IMPORTS
 import { REACT_APP_API_URL } from "../constants/api";
 
@@ -42,6 +47,9 @@ const useStyles = makeStyles({
     "-webkit-box-orient": "vertical",
     height: "2.25rem",
   },
+  iconMargin: {
+    marginRight: "0.5rem",
+  },
 });
 
 function AllDecks() {
@@ -71,9 +79,20 @@ function AllDecks() {
                 color="secondary"
                 disableElevation
               >
+                <FontAwesomeIcon
+                  icon={faInfoCircle}
+                  className={classes.iconMargin}
+                />
                 More Info
               </Button>
-              <Button variant="contained" color="primary" disableElevation>
+              <Button
+                component={RouterLink}
+                to={`/decks/${deck._id}/play`}
+                variant="contained"
+                color="primary"
+                disableElevation
+              >
+                <FontAwesomeIcon icon={faPlay} className={classes.iconMargin} />
                 Play Deck
               </Button>
             </CardActions>
