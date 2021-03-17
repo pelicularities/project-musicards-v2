@@ -19,6 +19,8 @@ function UserMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
+  console.log(user);
+
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -29,7 +31,7 @@ function UserMenu() {
 
   return (
     <div>
-      {user.name}
+      {user}
       <IconButton
         aria-label={`${user.name}'s account`}
         aria-controls="menu-appbar"
