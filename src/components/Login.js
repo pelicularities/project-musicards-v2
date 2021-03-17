@@ -6,7 +6,7 @@ import { Redirect, Link as RouterLink } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
-import { makeStyles } from "@material-ui/core/styles";
+import Alert from "@material-ui/lab/Alert";
 
 // EXTERNAL IMPORTS
 import Cookies from "js-cookie";
@@ -14,7 +14,13 @@ import Cookies from "js-cookie";
 // INTERNAL IMPORTS
 import { REACT_APP_API_URL } from "../constants/api";
 
+// THEMING
+import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
+  loginContainer: {
+    width: "300px",
+    margin: "0 auto",
+  },
   bottomSpacing: {
     marginBottom: "1rem",
   },
@@ -23,6 +29,7 @@ const useStyles = makeStyles({
 function Login({ setUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [flashMessage, setFlashMessage] = useState(null);
   const [redirectToMain, setRedirectToMain] = useState(false);
   const classes = useStyles();
 
@@ -46,20 +53,25 @@ function Login({ setUser }) {
       setUser(json);
       setRedirectToMain(true);
     } else {
-      console.log("invalid credentials");
-      // TODO: handle login failure
+      setFlashMessage("Invalid login credentials!");
     }
   };
 
   return (
-    <div>
+    <div className={classes.loginContainer}>
       {redirectToMain && <Redirect to="/" />}
       <h2>User Login</h2>
+      {flashMessage && (
+        <Alert className={classes.bottomSpacing} severity="error">
+          {flashMessage}
+        </Alert>
+      )}
       <form className={classes.bottomSpacing}>
         <div>
           <TextField
             label="Username"
             autoComplete="username"
+            autoFocus={true}
             variant="outlined"
             className={classes.bottomSpacing}
             value={username}
