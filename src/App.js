@@ -63,7 +63,11 @@ function App() {
                     path="/decks/:deckId/play"
                     component={PlayDeck}
                   />
-                  <Route exact path="/users/new" render={() => <NewUser />} />
+                  <Route
+                    exact
+                    path="/users/new"
+                    render={() => <NewUser setUser={setUser} />}
+                  />
                   <Route
                     exact
                     path="/login"

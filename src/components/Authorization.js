@@ -19,8 +19,6 @@ function Authorization(props) {
   // renders the children of this component
   // hides the children otherwise
   const user = useContext(UserContext);
-  // console.log("authorised user id", props);
-  // console.log("actual user ID", user);
   const classes = useStyles();
   if (user.name === props.user) {
     return props.children;

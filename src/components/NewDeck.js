@@ -1,5 +1,5 @@
 // REACT AND FRIENDS
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 
 // MATERIAL UI
@@ -7,7 +7,6 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
 // INTERNAL IMPORTS
-import UserContext from "../contexts/UserContext";
 import { REACT_APP_API_URL } from "../constants/api";
 
 // COMPONENT STYLE
@@ -41,14 +40,13 @@ function NewDeck() {
         body: JSON.stringify(requestBody),
       };
       const response = await fetch(requestUrl, requestOptions);
-      console.log(response);
-      console.log(response.status);
       if (response.status === 201) {
         const newDeck = await response.json();
         setDeckId(newDeck._id);
         setRedirectToDeck(true);
       }
     } else {
+      // TODO: UNHAPPY PATH
       console.log("nope");
     }
   };

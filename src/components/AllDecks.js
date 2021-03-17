@@ -107,7 +107,6 @@ function AllDecks() {
     fetch(queryUrl)
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
         setDecks(json);
       });
   }, []);

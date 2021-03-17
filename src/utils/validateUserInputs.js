@@ -1,9 +1,16 @@
-const validateInputs = (username, password) => {
+const validateUsername = (username) => {
   // username must be 3 characters or longer, letters only
-  // password must be 8 characters or longer
   if (username.length < 3) return false;
-  if (password.length < 8) return false;
   return /^[A-Za-z]+$/.test(username);
 };
 
-export default validateInputs;
+const validatePassword = (password) => {
+  // password must be 8 characters or longer
+  return !(password.length < 8);
+};
+
+const validateUserInputs = (username, password) => {
+  return validateUsername(username) && validatePassword(password);
+};
+
+export { validateUsername, validatePassword, validateUserInputs };

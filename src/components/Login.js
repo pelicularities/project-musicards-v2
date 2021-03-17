@@ -1,5 +1,5 @@
 // REACT AND FRIENDS
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Redirect, Link as RouterLink } from "react-router-dom";
 
 // MATERIAL UI
@@ -8,11 +8,8 @@ import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import Alert from "@material-ui/lab/Alert";
 
-// EXTERNAL IMPORTS
-import Cookies from "js-cookie";
-
 // INTERNAL IMPORTS
-import validateInputs from "../utils/validateUserInputs";
+import { validateUserInputs } from "../utils/validateUserInputs";
 import { REACT_APP_API_URL } from "../constants/api";
 
 // THEMING
@@ -35,14 +32,13 @@ function Login({ setUser }) {
   const classes = useStyles();
 
   const handleKeypress = (event) => {
-    console.log(event);
     if (event.code === "Enter") {
       handleSubmit();
     }
   };
 
   const handleSubmit = async () => {
-    if (!validateInputs(username, password)) {
+    if (!validateUserInputs(username, password)) {
       setFlashMessage("Invalid login credentials.");
       return;
     }
