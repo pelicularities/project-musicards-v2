@@ -12,7 +12,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Cookies from "js-cookie";
 
 // INTERNAL IMPORTS
-import UserContext from "../contexts/UserContext";
 import { REACT_APP_API_URL } from "../constants/api";
 
 const useStyles = makeStyles({
@@ -43,7 +42,8 @@ function Login({ setUser }) {
     };
     const response = await fetch(requestUrl, requestOptions);
     if (response.status === 200) {
-      setUser(username);
+      const json = await response.json();
+      setUser(json);
       setRedirectToMain(true);
     } else {
       console.log("invalid credentials");
