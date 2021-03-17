@@ -7,7 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
 // INTERNAL IMPORTS
-import UserContext from "../contexts/UserContext";
+import validateInputs from "../utils/validateUserInputs";
 import { REACT_APP_API_URL } from "../constants/api";
 
 // COMPONENT STYLE
@@ -23,14 +23,6 @@ function NewUser({ setUser }) {
   const [password, setPassword] = useState("");
   const [redirectToMain, setRedirectToMain] = useState(false);
   const classes = useStyles();
-
-  const validateInputs = (username, password) => {
-    // username must be 3 characters or longer, letters only
-    // password must be 8 characters or longer
-    if (username.length < 3) return false;
-    if (password.length < 8) return false;
-    return /^[A-Za-z]+$/.test(username);
-  };
 
   const handleSubmit = async () => {
     if (validateInputs(username, password)) {

@@ -12,6 +12,7 @@ import Alert from "@material-ui/lab/Alert";
 import Cookies from "js-cookie";
 
 // INTERNAL IMPORTS
+import validateInputs from "../utils/validateUserInputs";
 import { REACT_APP_API_URL } from "../constants/api";
 
 // THEMING
@@ -33,7 +34,18 @@ function Login({ setUser }) {
   const [redirectToMain, setRedirectToMain] = useState(false);
   const classes = useStyles();
 
+  const handleKeypress = (event) => {
+    console.log(event);
+    if (event.code === "Enter") {
+      handleSubmit();
+    }
+  };
+
   const handleSubmit = async () => {
+    if (!validateInputs(username, password)) {
+      setFlashMessage("Invalid login credentials.");
+      return;
+    }
     const requestUrl = `${REACT_APP_API_URL}/users/login`;
     const requestBody = {
       username: username,
@@ -53,7 +65,7 @@ function Login({ setUser }) {
       setUser(json);
       setRedirectToMain(true);
     } else {
-      setFlashMessage("Invalid login credentials!");
+      setFlashMessage("Incorrect username and/or password.");
     }
   };
 
@@ -76,6 +88,7 @@ function Login({ setUser }) {
             className={classes.bottomSpacing}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            onKeyPress={handleKeypress}
           />
         </div>
         <div>
@@ -87,6 +100,7 @@ function Login({ setUser }) {
             className={classes.bottomSpacing}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyPress={handleKeypress}
           />
         </div>
         <div>
