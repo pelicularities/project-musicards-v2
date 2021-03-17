@@ -11,12 +11,11 @@ function Logout({ setUser }) {
   useEffect(() => {
     const requestUrl = `${REACT_APP_API_URL}/users/logout`;
     const requestOptions = {
-      method: "POST",
+      method: "GET",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({}),
     };
     fetch(requestUrl, requestOptions).then((response) => {
       if (response.status === 200) {
