@@ -29,7 +29,7 @@ function UserMenu() {
 
   return (
     <div>
-      {user.username}
+      {user.name}
       <IconButton
         aria-label={`${user.name}'s account`}
         aria-controls="menu-appbar"
