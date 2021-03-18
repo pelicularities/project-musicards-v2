@@ -12,6 +12,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "clsx": "^1.1.1",
+    "formik": "^2.2.6",
     "js-cookie": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -22,7 +23,8 @@
     "redux-thunk": "^2.3.0",
     "uuid": "^3.4.0",
     "vexflow": "^3.0.9",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "PORT=3001 react-scripts start",
