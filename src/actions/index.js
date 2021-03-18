@@ -1,5 +1,3 @@
-// import { REACT_APP_API_URL } from "../constants/api";
-
 export const getCards = (payload) => {
   return {
     type: "GET_CARDS",

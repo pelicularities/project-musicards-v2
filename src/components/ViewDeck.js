@@ -16,7 +16,6 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 // INTERNAL IMPORTS
-// import { REACT_APP_API_URL } from "../constants/api";
 import Flashcard from "./Flashcard";
 import Authorization from "./Authorization";
 
@@ -65,7 +64,6 @@ const useStyles = makeStyles({
 function ViewDeck(props) {
   const deckId = props.match.params.deckId;
   const [deck, setDeck] = useState({});
-  // const [cards, setCards] = useState(null);
   const classes = useStyles();
 
   const prepareCards = (cards) => {
@@ -89,13 +87,6 @@ function ViewDeck(props) {
       });
 
     props.getCardsFromAPI(deckId);
-
-    // const cardsQueryUrl = `${REACT_APP_API_URL}/decks/${deckId}/cards`;
-    // fetch(cardsQueryUrl)
-    //   .then((response) => response.json())
-    //   .then((cardsJson) => {
-    //     setCards(cardsJson);
-    //   });
   }, []);
 
   return (

@@ -15,7 +15,6 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 // INTERNAL IMPORTS
-// import { REACT_APP_API_URL } from "../constants/api";
 
 // THEMING
 import theme from "../styles/theme";

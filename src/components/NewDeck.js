@@ -8,7 +8,6 @@ import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
 
 // INTERNAL IMPORTS
-// import { REACT_APP_API_URL } from "../constants/api";
 import UserContext from "../contexts/UserContext";
 import Login from "./Login";
 
@@ -25,7 +24,7 @@ const useStyles = makeStyles({
 });
 
 function NewDeck() {
-  const [user, setUser] = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [flashMessage, setFlashMessage] = useState(null);

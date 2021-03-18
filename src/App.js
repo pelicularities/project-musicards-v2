@@ -1,5 +1,5 @@
 // REACT AND FRIENDS
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // REDUX
@@ -38,11 +38,11 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
-  const user = useCurrentUserHook();
+  const { user, setUser } = useCurrentUserHook();
 
   return (
     <ThemeProvider theme={theme}>
-      <UserContext.Provider value={user}>
+      <UserContext.Provider value={{ user, setUser }}>
         <Provider store={store}>
           <BrowserRouter>
             <div className={classes.app}>

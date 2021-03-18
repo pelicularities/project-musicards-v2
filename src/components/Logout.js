@@ -4,10 +4,9 @@ import { Redirect } from "react-router-dom";
 
 // INTERNAL IMPORTS
 import UserContext from "../contexts/UserContext";
-// import { REACT_APP_API_URL } from "../constants/api";
 
 function Logout() {
-  const [, setUser] = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const [redirectToMain, setRedirectToMain] = useState(false);
 
   useEffect(() => {

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-// import { REACT_APP_API_URL } from "../constants/api";
 
 export const useCurrentUserHook = () => {
   const [user, setUser] = useState();
@@ -20,5 +19,5 @@ export const useCurrentUserHook = () => {
       .catch((err) => console.error);
   }, []);
 
-  return [user, setUser];
+  return { user, setUser };
 };

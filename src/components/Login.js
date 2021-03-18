@@ -11,7 +11,6 @@ import Alert from "@material-ui/lab/Alert";
 // INTERNAL IMPORTS
 import { validateUserInputs } from "../utils/validateUserInputs";
 import UserContext from "../contexts/UserContext";
-// import { REACT_APP_API_URL } from "../constants/api";
 
 // THEMING
 import { makeStyles } from "@material-ui/core/styles";
@@ -26,7 +25,7 @@ const useStyles = makeStyles({
 });
 
 function Login({ loginRequired, redirectTo = "/" }) {
-  const [, setUser] = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

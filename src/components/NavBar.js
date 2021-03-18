@@ -5,14 +5,9 @@ import { Link as RouterLink } from "react-router-dom";
 // MATERIAL UI
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-
-// FONTAWESOME
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 // INTERNAL IMPORTS
 import UserContext from "../contexts/UserContext";
@@ -46,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function NavBar() {
-  const [user] = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const classes = useStyles();
   return (
     <div className={classes.root}>
