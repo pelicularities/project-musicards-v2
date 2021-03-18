@@ -24,11 +24,15 @@ const useStyles = makeStyles({
   },
 });
 
-function Login({ setUser }) {
+function Login({ setUser, loginRequired, redirectTo = "/" }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [flashMessage, setFlashMessage] = useState(null);
-  const [redirectToMain, setRedirectToMain] = useState(false);
+
+  const [flashMessage, setFlashMessage] = useState(
+    loginRequired ? "Please log in to access this page." : null
+  );
+
+  const [redirect, setRedirect] = useState(false);
   const classes = useStyles();
 
   const handleKeypress = (event) => {
@@ -59,7 +63,7 @@ function Login({ setUser }) {
     if (response.status === 200) {
       const json = await response.json();
       setUser(json);
-      setRedirectToMain(true);
+      setRedirect(true);
     } else {
       setFlashMessage("Incorrect username and/or password.");
     }
@@ -67,7 +71,7 @@ function Login({ setUser }) {
 
   return (
     <div className={classes.loginContainer}>
-      {redirectToMain && <Redirect to="/" />}
+      {redirect && <Redirect to={redirectTo} />}
       <h2>User Login</h2>
       {flashMessage && (
         <Alert className={classes.bottomSpacing} severity="error">

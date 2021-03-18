@@ -1,5 +1,5 @@
 // REACT AND FRIENDS
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 
 // MATERIAL UI
@@ -9,6 +9,8 @@ import Alert from "@material-ui/lab/Alert";
 
 // INTERNAL IMPORTS
 // import { REACT_APP_API_URL } from "../constants/api";
+import { useCurrentUserHook } from "../contexts/useCurrentUserHook";
+import Login from "./Login";
 
 // COMPONENT STYLE
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,6 +25,7 @@ const useStyles = makeStyles({
 });
 
 function NewDeck() {
+  const { user, setUser } = useCurrentUserHook();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [flashMessage, setFlashMessage] = useState(null);
@@ -65,7 +68,7 @@ function NewDeck() {
     }
   };
 
-  return (
+  return user ? (
     <div className={classes.newDeckContainer}>
       {redirectToDeck && <Redirect to={`/decks/${deckId}`} />}
       <h2>New Deck</h2>
@@ -109,6 +112,8 @@ function NewDeck() {
         </div>
       </form>
     </div>
+  ) : (
+    <Login setUser={setUser} loginRequired={true} redirectTo="/decks/new" />
   );
 }
 
