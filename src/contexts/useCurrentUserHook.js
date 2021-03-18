@@ -20,8 +20,5 @@ export const useCurrentUserHook = () => {
       .catch((err) => console.error);
   }, []);
 
-  return {
-    user,
-    setUser,
-  };
+  return [user, setUser];
 };

@@ -9,7 +9,7 @@ import Alert from "@material-ui/lab/Alert";
 
 // INTERNAL IMPORTS
 // import { REACT_APP_API_URL } from "../constants/api";
-import { useCurrentUserHook } from "../contexts/useCurrentUserHook";
+import UserContext from "../contexts/UserContext";
 import Login from "./Login";
 
 // COMPONENT STYLE
@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 });
 
 function NewDeck() {
-  const { user, setUser } = useCurrentUserHook();
+  const [user, setUser] = useContext(UserContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [flashMessage, setFlashMessage] = useState(null);

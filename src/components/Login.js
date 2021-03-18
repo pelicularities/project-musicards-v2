@@ -1,5 +1,5 @@
 // REACT AND FRIENDS
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect, Link as RouterLink } from "react-router-dom";
 
 // MATERIAL UI
@@ -10,6 +10,7 @@ import Alert from "@material-ui/lab/Alert";
 
 // INTERNAL IMPORTS
 import { validateUserInputs } from "../utils/validateUserInputs";
+import UserContext from "../contexts/UserContext";
 // import { REACT_APP_API_URL } from "../constants/api";
 
 // THEMING
@@ -24,7 +25,9 @@ const useStyles = makeStyles({
   },
 });
 
-function Login({ setUser, loginRequired, redirectTo = "/" }) {
+function Login({ loginRequired, redirectTo = "/" }) {
+  const [, setUser] = useContext(UserContext);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -62,6 +65,7 @@ function Login({ setUser, loginRequired, redirectTo = "/" }) {
     const response = await fetch(requestUrl, requestOptions);
     if (response.status === 200) {
       const json = await response.json();
+      console.log(json);
       setUser(json);
       setRedirect(true);
     } else {

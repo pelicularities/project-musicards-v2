@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function NavBar() {
-  const user = useContext(UserContext);
+  const [user] = useContext(UserContext);
   const classes = useStyles();
   return (
     <div className={classes.root}>

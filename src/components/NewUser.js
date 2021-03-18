@@ -1,5 +1,5 @@
 // REACT AND FRIENDS
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 
 // MATERIAL UI
@@ -13,6 +13,7 @@ import {
   validateUsername,
   validatePassword,
 } from "../utils/validateUserInputs";
+import UserContext from "../contexts/UserContext";
 // import { REACT_APP_API_URL } from "../constants/api";
 
 // COMPONENT STYLE
@@ -27,7 +28,8 @@ const useStyles = makeStyles({
   },
 });
 
-function NewUser({ setUser }) {
+function NewUser() {
+  const [, setUser] = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [flashMessage, setFlashMessage] = useState(null);

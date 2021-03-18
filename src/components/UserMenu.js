@@ -15,7 +15,7 @@ import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import UserContext from "../contexts/UserContext";
 
 function UserMenu() {
-  const user = useContext(UserContext);
+  const [user] = useContext(UserContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 

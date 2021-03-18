@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
-  const { user, setUser } = useCurrentUserHook();
+  const user = useCurrentUserHook();
 
   return (
     <ThemeProvider theme={theme}>
@@ -63,21 +63,9 @@ function App() {
                     path="/decks/:deckId/play"
                     component={PlayDeck}
                   />
-                  <Route
-                    exact
-                    path="/users/new"
-                    render={() => <NewUser setUser={setUser} />}
-                  />
-                  <Route
-                    exact
-                    path="/login"
-                    render={() => <Login setUser={setUser} />}
-                  />
-                  <Route
-                    exact
-                    path="/logout"
-                    render={() => <Logout setUser={setUser} />}
-                  />
+                  <Route exact path="/users/new" render={() => <NewUser />} />
+                  <Route exact path="/login" render={() => <Login />} />
+                  <Route exact path="/logout" render={() => <Logout />} />
                 </Switch>
               </div>
             </div>
