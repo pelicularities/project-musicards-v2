@@ -28,9 +28,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   addFlashcardForm: {
-    width: "80%",
-    maxWidth: "40rem",
-    margin: "0 auto",
+    width: "40rem",
+    margin: "1rem",
   },
   buttonContainer: {
     display: "flex",
@@ -49,10 +48,12 @@ const useStyles = makeStyles({
   marginTop: {
     marginTop: "3rem",
   },
+  alignRight: {
+    textAlign: "right",
+  },
 });
 
-function NewCard(props) {
-  const deckId = props.match.params.deckId;
+function NewCard({ deckId, setNewCardDialog, getCardsFromAPI }) {
   const deckUrl = `/decks/${deckId}`;
   const [flashMessage, setFlashMessage] = useState(null);
   const [front, setFront] = useState("");
@@ -61,7 +62,6 @@ function NewCard(props) {
   const [backText, setBackText] = useState("");
   const [showFrontError, setFrontError] = useState(false);
   const [showBackError, setBackError] = useState(false);
-  const [redirectToDeck, setRedirect] = useState(false);
   const [hasFrontStave, setHasFrontStave] = useState(false);
   const [hasBackStave, setHasBackStave] = useState(false);
   const [frontStave, setFrontStave] = useState(null);
@@ -100,7 +100,8 @@ function NewCard(props) {
       };
       const response = await fetch(requestUrl, requestOptions);
       if (response.status === 201) {
-        setRedirect(true);
+        setNewCardDialog(false);
+        getCardsFromAPI(deckId);
       } else {
         setFlashMessage(
           "Something went wrong and we weren't able to create your card."
@@ -170,23 +171,6 @@ function NewCard(props) {
 
   return (
     <div>
-      {redirectToDeck && <Redirect to={deckUrl} />}
-
-      <div className={classes.buttonContainer}>
-        <Button
-          component={RouterLink}
-          to={deckUrl}
-          variant="outlined"
-          color="primary"
-          disableElevation
-        >
-          <FontAwesomeIcon
-            icon={faChevronLeft}
-            className={classes.iconMargin}
-          />
-          Back to Deck Overview
-        </Button>
-      </div>
       <form className={classes.addFlashcardForm}>
         {flashMessage && (
           <Alert className={classes.bottomSpacing} severity="error">
@@ -259,7 +243,7 @@ function NewCard(props) {
             onStaveChange={handleStaveChange(setBackStave)}
           />
         )}
-        <div>
+        <div className={classes.alignRight}>
           <Button
             variant="contained"
             color="secondary"

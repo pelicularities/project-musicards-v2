@@ -9,6 +9,7 @@ import { getCardsFromAPI } from "../actions";
 // MATERIAL UI
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
 
 // FONTAWESOME
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,6 +19,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 // INTERNAL IMPORTS
 import Flashcard from "./Flashcard";
 import Authorization from "./Authorization";
+import NewCard from "./NewCard";
 
 // THEMING
 import theme from "../styles/theme";
@@ -64,6 +66,7 @@ const useStyles = makeStyles({
 function ViewDeck(props) {
   const deckId = props.match.params.deckId;
   const [deck, setDeck] = useState({});
+  const [openNewCardDialog, setNewCardDialog] = useState(false);
   const classes = useStyles();
 
   const prepareCards = (cards) => {
@@ -108,17 +111,25 @@ function ViewDeck(props) {
             Play Deck
           </Button>
 
-          <Authorization user={deck.username}>
+          <Authorization user={deck.userId}>
             <Button
-              component={RouterLink}
-              to={`/decks/${deckId}/cards/new`}
+              // component={RouterLink}
+              // to={`/decks/${deckId}/cards/new`}
               variant="contained"
               color="secondary"
               disableElevation
+              onClick={() => setNewCardDialog(true)}
             >
               <FontAwesomeIcon icon={faPlus} className={classes.iconMargin} />{" "}
               Add Card
             </Button>
+            <Dialog
+              open={openNewCardDialog}
+              onClose={() => setNewCardDialog(false)}
+              maxWidth="xl"
+            >
+              <NewCard deckId={deckId} setNewCardDialog={setNewCardDialog} />
+            </Dialog>
           </Authorization>
         </div>
       </Grid>

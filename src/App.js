@@ -55,11 +55,6 @@ function App() {
                   <Route exact path="/decks/:deckId" component={ViewDeck} />
                   <Route
                     exact
-                    path="/decks/:deckId/cards/new"
-                    component={NewCard}
-                  />
-                  <Route
-                    exact
                     path="/decks/:deckId/play"
                     component={PlayDeck}
                   />
