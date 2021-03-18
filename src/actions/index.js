@@ -1,4 +1,4 @@
-import { REACT_APP_API_URL } from "../constants/api";
+// import { REACT_APP_API_URL } from "../constants/api";
 
 export const getCards = (payload) => {
   return {
@@ -9,7 +9,7 @@ export const getCards = (payload) => {
 
 export const getCardsFromAPI = (deckId) => {
   return (dispatch) => {
-    const cardsQueryUrl = `${REACT_APP_API_URL}/decks/${deckId}/cards`;
+    const cardsQueryUrl = `${process.env.REACT_APP_API_URL}/decks/${deckId}/cards`;
     fetch(cardsQueryUrl)
       .then((response) => response.json())
       .then((cardsJson) => {

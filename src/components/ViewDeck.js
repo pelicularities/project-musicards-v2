@@ -16,7 +16,7 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 // INTERNAL IMPORTS
-import { REACT_APP_API_URL } from "../constants/api";
+// import { REACT_APP_API_URL } from "../constants/api";
 import Flashcard from "./Flashcard";
 import Authorization from "./Authorization";
 
@@ -81,7 +81,7 @@ function ViewDeck(props) {
   };
 
   useEffect(() => {
-    const deckQueryUrl = `${REACT_APP_API_URL}/decks/${deckId}`;
+    const deckQueryUrl = `${process.env.REACT_APP_API_URL}/decks/${deckId}`;
     fetch(deckQueryUrl)
       .then((response) => response.json())
       .then((deckJson) => {

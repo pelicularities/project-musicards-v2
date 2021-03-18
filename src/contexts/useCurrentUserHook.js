@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { REACT_APP_API_URL } from "../constants/api";
+// import { REACT_APP_API_URL } from "../constants/api";
 
 export const useCurrentUserHook = () => {
   const [user, setUser] = useState();
 
   useEffect(() => {
-    const requestUrl = `${REACT_APP_API_URL}/users/me`;
+    const requestUrl = `${process.env.REACT_APP_API_URL}/users/me`;
 
     const requestOptions = {
       method: "GET",

@@ -15,7 +15,7 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 // INTERNAL IMPORTS
-import { REACT_APP_API_URL } from "../constants/api";
+// import { REACT_APP_API_URL } from "../constants/api";
 
 // THEMING
 import theme from "../styles/theme";
@@ -103,7 +103,7 @@ function AllDecks() {
   };
 
   useEffect(() => {
-    const queryUrl = `${REACT_APP_API_URL}/decks`;
+    const queryUrl = `${process.env.REACT_APP_API_URL}/decks`;
     fetch(queryUrl)
       .then((response) => response.json())
       .then((json) => {

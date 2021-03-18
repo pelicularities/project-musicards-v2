@@ -13,7 +13,7 @@ import {
   validateUsername,
   validatePassword,
 } from "../utils/validateUserInputs";
-import { REACT_APP_API_URL } from "../constants/api";
+// import { REACT_APP_API_URL } from "../constants/api";
 
 // COMPONENT STYLE
 import { makeStyles } from "@material-ui/core/styles";
@@ -65,7 +65,7 @@ function NewUser({ setUser }) {
       setFlashMessage("Invalid username and/or password.");
       return;
     }
-    const requestUrl = `${REACT_APP_API_URL}/users/`;
+    const requestUrl = `${process.env.REACT_APP_API_URL}/users/`;
     const requestBody = {
       username: username,
       password: password,

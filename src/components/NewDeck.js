@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
 
 // INTERNAL IMPORTS
-import { REACT_APP_API_URL } from "../constants/api";
+// import { REACT_APP_API_URL } from "../constants/api";
 
 // COMPONENT STYLE
 import { makeStyles } from "@material-ui/core/styles";
@@ -37,7 +37,7 @@ function NewDeck() {
 
   const handleSubmit = async () => {
     if (title) {
-      const requestUrl = `${REACT_APP_API_URL}/decks/`;
+      const requestUrl = `${process.env.REACT_APP_API_URL}/decks/`;
       const requestBody = {
         title: title,
       };

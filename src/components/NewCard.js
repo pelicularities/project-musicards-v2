@@ -20,7 +20,7 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 // EXTERNAL IMPORTS
 
 // INTERNAL IMPORTS
-import { REACT_APP_API_URL } from "../constants/api";
+// import { REACT_APP_API_URL } from "../constants/api";
 import NewStave from "./NewStave";
 
 // THEMING
@@ -73,7 +73,7 @@ function NewCard(props) {
   };
 
   const handleAddFlashcard = async () => {
-    const requestUrl = `${REACT_APP_API_URL}${deckUrl}/cards`;
+    const requestUrl = `${process.env.REACT_APP_API_URL}${deckUrl}/cards`;
     const requestBody = { front: front, back: back };
     const requestOptions = {
       method: "POST",

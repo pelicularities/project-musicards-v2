@@ -10,7 +10,7 @@ import Alert from "@material-ui/lab/Alert";
 
 // INTERNAL IMPORTS
 import { validateUserInputs } from "../utils/validateUserInputs";
-import { REACT_APP_API_URL } from "../constants/api";
+// import { REACT_APP_API_URL } from "../constants/api";
 
 // THEMING
 import { makeStyles } from "@material-ui/core/styles";
@@ -42,7 +42,7 @@ function Login({ setUser }) {
       setFlashMessage("Invalid login credentials.");
       return;
     }
-    const requestUrl = `${REACT_APP_API_URL}/users/login`;
+    const requestUrl = `${process.env.REACT_APP_API_URL}/users/login`;
     const requestBody = {
       username: username,
       password: password,
