@@ -12,6 +12,7 @@ import TextField from "@material-ui/core/TextField";
 import Switch from "@material-ui/core/Switch";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Alert from "@material-ui/lab/Alert";
 
 // FONT AWESOME
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -53,15 +54,19 @@ const useStyles = makeStyles({
 function NewCard(props) {
   const deckId = props.match.params.deckId;
   const deckUrl = `/decks/${deckId}`;
+  const [flashMessage, setFlashMessage] = useState(null);
   const [front, setFront] = useState("");
   const [back, setBack] = useState("");
   const [frontText, setFrontText] = useState("");
   const [backText, setBackText] = useState("");
+  const [showFrontError, setFrontError] = useState(false);
+  const [showBackError, setBackError] = useState(false);
   const [redirectToDeck, setRedirect] = useState(false);
   const [hasFrontStave, setHasFrontStave] = useState(false);
   const [hasBackStave, setHasBackStave] = useState(false);
   const [frontStave, setFrontStave] = useState(null);
   const [backStave, setBackStave] = useState(null);
+  const classes = useStyles();
 
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
@@ -71,20 +76,38 @@ function NewCard(props) {
     setState(!variable);
   };
 
+  const validateField = (field, setError) => {
+    setError(!field);
+  };
+
+  const validateFlashcard = (frontText, backText) => {
+    // front text and back text cannot be empty
+    // there is NO back-end validation for this
+    return frontText.length && backText.length;
+  };
+
   const handleAddFlashcard = async () => {
-    const requestUrl = `${process.env.REACT_APP_API_URL}${deckUrl}/cards`;
-    const requestBody = { front: front, back: back };
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(requestBody),
-    };
-    const response = await fetch(requestUrl, requestOptions);
-    if (response.status === 201) {
-      setRedirect(true);
+    if (validateFlashcard(frontText, backText)) {
+      const requestUrl = `${process.env.REACT_APP_API_URL}${deckUrl}/cards`;
+      const requestBody = { front: front, back: back };
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(requestBody),
+      };
+      const response = await fetch(requestUrl, requestOptions);
+      if (response.status === 201) {
+        setRedirect(true);
+      } else {
+        setFlashMessage(
+          "Something went wrong and we weren't able to create your card."
+        );
+      }
+    } else {
+      setFlashMessage("Both front and back text are required.");
     }
   };
 
@@ -145,10 +168,10 @@ function NewCard(props) {
     }
   }, [hasBackStave, backText, backStave]);
 
-  const classes = useStyles();
   return (
     <div>
       {redirectToDeck && <Redirect to={deckUrl} />}
+
       <div className={classes.buttonContainer}>
         <Button
           component={RouterLink}
@@ -165,13 +188,21 @@ function NewCard(props) {
         </Button>
       </div>
       <form className={classes.addFlashcardForm}>
+        {flashMessage && (
+          <Alert className={classes.bottomSpacing} severity="error">
+            {flashMessage}
+          </Alert>
+        )}
         <TextField
           className={classes.formInputs}
           label="Front Text"
           fullWidth
           variant="outlined"
+          error={showFrontError}
           value={frontText}
+          helperText="Required"
           onChange={(e) => handleInputChange(e, setFrontText)}
+          onBlur={(e) => validateField(e.target.value.length, setFrontError)}
         />
         <FormGroup row>
           <FormControlLabel
@@ -200,8 +231,11 @@ function NewCard(props) {
           label="Back Text"
           fullWidth
           variant="outlined"
+          error={showBackError}
           value={backText}
+          helperText="Required"
           onChange={(e) => handleInputChange(e, setBackText)}
+          onBlur={(e) => validateField(e.target.value.length, setBackError)}
         />
         <FormGroup row>
           <FormControlLabel

@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 });
 
 function NewDeck() {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [flashMessage, setFlashMessage] = useState(null);
@@ -112,7 +112,7 @@ function NewDeck() {
       </form>
     </div>
   ) : (
-    <Login setUser={setUser} loginRequired={true} redirectTo="/decks/new" />
+    <Login loginRequired={true} redirectTo="/decks/new" />
   );
 }
 

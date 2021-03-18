@@ -20,10 +20,10 @@ function Authorization(props) {
   // hides the children otherwise
   const { user } = useContext(UserContext);
   const classes = useStyles();
-  if (user.name === props.user) {
-    return props.children;
+  if (!user || user.name !== props.user) {
+    return <div className={classes.hideChildren}></div>;
   }
-  return <div className={classes.hideChildren}></div>;
+  return props.children;
 }
 
 export default Authorization;
