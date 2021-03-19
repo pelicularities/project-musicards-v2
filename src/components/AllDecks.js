@@ -15,6 +15,7 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 // INTERNAL IMPORTS
+import Loader from "./Loader";
 
 // THEMING
 import theme from "../styles/theme";
@@ -52,6 +53,7 @@ const useStyles = makeStyles({
 });
 
 function AllDecks() {
+  const [isLoading, setIsLoading] = useState(true);
   const [decks, setDecks] = useState([]);
   const classes = useStyles();
 
@@ -107,15 +109,19 @@ function AllDecks() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const queryUrl = `${process.env.REACT_APP_API_URL}/decks`;
     fetch(queryUrl)
       .then((response) => response.json())
       .then((json) => {
         setDecks(json);
+        setIsLoading(false);
       });
   }, []);
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <Grid container spacing={2}>
       {prepareDecks(decks)}
     </Grid>
