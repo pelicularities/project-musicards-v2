@@ -16,10 +16,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
+// EXTERNAL IMPORTS
+
 // INTERNAL IMPORTS
 import Flashcard from "./Flashcard";
 import Authorization from "./Authorization";
 import NewCard from "./NewCard";
+import Loader from "./Loader";
 
 // THEMING
 import theme from "../styles/theme";
@@ -58,6 +61,7 @@ const useStyles = makeStyles({
 
 function ViewDeck(props) {
   const deckId = props.match.params.deckId;
+  const [isLoading, setIsLoading] = useState(true);
   const [deck, setDeck] = useState({});
   const [openNewCardDialog, setNewCardDialog] = useState(false);
   const classes = useStyles();
@@ -75,17 +79,20 @@ function ViewDeck(props) {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const deckQueryUrl = `${process.env.REACT_APP_API_URL}/decks/${deckId}`;
     fetch(deckQueryUrl)
       .then((response) => response.json())
       .then((deckJson) => {
         setDeck(deckJson);
+        props.getCardsFromAPI(deckId);
+        setIsLoading(false);
       });
+  }, [deckId]);
 
-    props.getCardsFromAPI(deckId);
-  }, []);
-
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <Grid container spacing={2}>
       <Grid item key="deckInfo" xs={12}>
         <h2>{deck.title}</h2>
@@ -108,8 +115,6 @@ function ViewDeck(props) {
       <Grid item key="toolbar-right" xs={6}>
         <Authorization user={deck.userId}>
           <Button
-            // component={RouterLink}
-            // to={`/decks/${deckId}/cards/new`}
             variant="contained"
             color="secondary"
             disableElevation
