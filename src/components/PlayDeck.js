@@ -177,7 +177,7 @@ function PlayDeck(props) {
             icon={faChevronLeft}
             className={classes.iconMargin}
           />
-          Back to Card Overview
+          Back to Deck Overview
         </Button>
 
         <Button
