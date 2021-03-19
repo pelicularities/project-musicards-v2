@@ -24,6 +24,7 @@ import ViewDeck from "./components/ViewDeck";
 import NewDeck from "./components/NewDeck";
 import PlayDeck from "./components/PlayDeck";
 import { useCurrentUserHook } from "./contexts/useCurrentUserHook";
+import LandingPage from "./components/LandingPage";
 
 // COMPONENT STYLE
 const useStyles = makeStyles({
@@ -48,7 +49,7 @@ function App() {
               <NavBar />
               <div className={classes.container}>
                 <Switch>
-                  <Route exact path="/" render={() => "main page"} />
+                  <Route exact path="/" render={() => <LandingPage />} />
                   <Route exact path="/decks" render={() => <AllDecks />} />
                   <Route exact path="/decks/new" render={() => <NewDeck />} />
                   <Route exact path="/decks/:deckId" component={ViewDeck} />
