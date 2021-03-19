@@ -22,7 +22,6 @@ import NewUser from "./components/NewUser";
 import AllDecks from "./components/AllDecks";
 import ViewDeck from "./components/ViewDeck";
 import NewDeck from "./components/NewDeck";
-import NewCard from "./components/NewCard";
 import PlayDeck from "./components/PlayDeck";
 import { useCurrentUserHook } from "./contexts/useCurrentUserHook";
 

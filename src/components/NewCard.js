@@ -1,6 +1,5 @@
 // REACT AND FRIENDS
 import React, { useState, useEffect } from "react";
-import { Redirect, Link as RouterLink } from "react-router-dom";
 
 // REDUX
 import { connect } from "react-redux";
@@ -13,10 +12,6 @@ import Switch from "@material-ui/core/Switch";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Alert from "@material-ui/lab/Alert";
-
-// FONT AWESOME
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 // EXTERNAL IMPORTS
 
