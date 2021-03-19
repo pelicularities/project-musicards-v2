@@ -22,6 +22,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 // INTERNAL IMPORTS
+import Loader from "./Loader";
 import PlayReport from "./PlayReport";
 
 // THEMING
@@ -72,6 +73,7 @@ function PlayDeck(props) {
   const deckUrl = `/decks/${deckId}`;
   const classes = useStyles();
   const history = useHistory();
+  const [isLoading, setIsLoading] = useState(true);
   const [playthrough, setPlaythrough] = useState(
     props.cards.map((flashcard) => {
       return {
@@ -86,11 +88,21 @@ function PlayDeck(props) {
   const [deckComplete, setDeckComplete] = useState(false);
 
   useEffect(() => {
-    props.getCardsFromAPI(deckId);
-    if (!props.cards || !props.cards.length) {
-      history.push(deckUrl);
-    }
-  }, []);
+    setIsLoading(true);
+    const returnValue = props.getCardsFromAPI(deckId);
+    console.log("return value from getCardsFromAPI", returnValue);
+  }, [deckId]);
+
+  useEffect(() => {
+    console.log("loading", isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
+    console.log("cards", props.cards);
+    setIsLoading(false);
+  }, [props.cards]);
+
+  useEffect(() => {});
 
   const checkComplete = () => {
     if (countCorrect() === props.cards.length) setDeckComplete(true);
@@ -164,18 +176,23 @@ function PlayDeck(props) {
     setDeckComplete(false);
   };
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div className={classes.playContainer}>
       <div className={classes.buttonContainer}>
-        <Link to="/">
-          <Button variant="outlined" color="primary" disableElevation>
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              className={classes.iconMargin}
-            />
-            Back to Card Overview
-          </Button>
-        </Link>
+        <Button
+          variant="outlined"
+          color="primary"
+          disableElevation
+          onClick={() => history.push(deckUrl)}
+        >
+          <FontAwesomeIcon
+            icon={faChevronLeft}
+            className={classes.iconMargin}
+          />
+          Back to Deck Overview
+        </Button>
         <Button
           variant="contained"
           color="secondary"
