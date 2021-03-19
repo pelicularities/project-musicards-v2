@@ -1,7 +1,16 @@
+// REACT AND FRIENDS
 import React, { useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
+
+// REDUX
+import { connect } from "react-redux";
+import { getCardsFromAPI } from "../actions";
+
+// MATERIAL UI
 import Flashcard from "./Flashcard";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
+
+// FONTAWESOME
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronCircleRight,
@@ -11,13 +20,12 @@ import {
   faRedoAlt,
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+
+// INTERNAL IMPORTS
 import PlayReport from "./PlayReport";
 
-// REDUX
-import { connect } from "react-redux";
-import { getCardsFromAPI } from "../actions";
-
+// THEMING
+import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   playContainer: {
     display: "inline-block",
@@ -61,7 +69,9 @@ const useStyles = makeStyles({
 
 function PlayDeck(props) {
   const deckId = props.match.params.deckId;
+  const deckUrl = `/decks/${deckId}`;
   const classes = useStyles();
+  const history = useHistory();
   const [playthrough, setPlaythrough] = useState(
     props.cards.map((flashcard) => {
       return {
@@ -77,7 +87,10 @@ function PlayDeck(props) {
 
   useEffect(() => {
     props.getCardsFromAPI(deckId);
-  });
+    if (!props.cards || !props.cards.length) {
+      history.push(deckUrl);
+    }
+  }, []);
 
   const checkComplete = () => {
     if (countCorrect() === props.cards.length) setDeckComplete(true);

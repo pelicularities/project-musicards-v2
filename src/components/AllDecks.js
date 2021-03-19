@@ -84,16 +84,21 @@ function AllDecks() {
                 />
                 More Info
               </Button>
-              <Button
-                component={RouterLink}
-                to={`/decks/${deck._id}/play`}
-                variant="contained"
-                color="primary"
-                disableElevation
-              >
-                <FontAwesomeIcon icon={faPlay} className={classes.iconMargin} />
-                Play Deck
-              </Button>
+              {!!deck.cards.length && (
+                <Button
+                  component={RouterLink}
+                  to={`/decks/${deck._id}/play`}
+                  variant="contained"
+                  color="primary"
+                  disableElevation
+                >
+                  <FontAwesomeIcon
+                    icon={faPlay}
+                    className={classes.iconMargin}
+                  />
+                  Play Deck
+                </Button>
+              )}
             </CardActions>
           </Card>
         </Grid>

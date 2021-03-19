@@ -34,7 +34,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Flashcard({ flashcard, className }) {
+function Flashcard({ flashcard = {}, className }) {
   const classes = useStyles();
   const { front, back } = flashcard;
   const [isFront, setIsFront] = useState(true);
@@ -51,6 +51,8 @@ function Flashcard({ flashcard, className }) {
     // front and back will be an array of objects
     // each object has the keys "type" and "content"
     // we want the content to be rendered based on the type
+    if (!side) return;
+    if (!side.length) return;
 
     return side.map((section) => {
       if (section.type === "text") {

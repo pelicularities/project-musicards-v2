@@ -51,13 +51,6 @@ const useStyles = makeStyles({
     "-webkit-box-orient": "vertical",
     height: "2.25rem",
   },
-  toolbar: {
-    width: "100%",
-    maxWidth: "40rem",
-    margin: "0 auto 1rem auto",
-    display: "flex",
-    justifyContent: "space-between",
-  },
   iconMargin: {
     marginRight: "0.5rem",
   },
@@ -98,8 +91,8 @@ function ViewDeck(props) {
         <h2>{deck.title}</h2>
         {deck.description || <em>this deck has no description</em>}
       </Grid>
-      <Grid item key="toolbar" xs={12}>
-        <div className={classes.toolbar}>
+      <Grid item key="toolbar" xs={6}>
+        {!!props.cards.length && (
           <Button
             component={RouterLink}
             to={`/decks/${deckId}/play`}
@@ -110,28 +103,29 @@ function ViewDeck(props) {
             <FontAwesomeIcon icon={faPlay} className={classes.iconMargin} />{" "}
             Play Deck
           </Button>
-
-          <Authorization user={deck.userId}>
-            <Button
-              // component={RouterLink}
-              // to={`/decks/${deckId}/cards/new`}
-              variant="contained"
-              color="secondary"
-              disableElevation
-              onClick={() => setNewCardDialog(true)}
-            >
-              <FontAwesomeIcon icon={faPlus} className={classes.iconMargin} />{" "}
-              Add Card
-            </Button>
-            <Dialog
-              open={openNewCardDialog}
-              onClose={() => setNewCardDialog(false)}
-              maxWidth="xl"
-            >
-              <NewCard deckId={deckId} setNewCardDialog={setNewCardDialog} />
-            </Dialog>
-          </Authorization>
-        </div>
+        )}
+      </Grid>
+      <Grid item key="toolbar" xs={6}>
+        <Authorization user={deck.userId}>
+          <Button
+            // component={RouterLink}
+            // to={`/decks/${deckId}/cards/new`}
+            variant="contained"
+            color="secondary"
+            disableElevation
+            onClick={() => setNewCardDialog(true)}
+          >
+            <FontAwesomeIcon icon={faPlus} className={classes.iconMargin} /> Add
+            Card
+          </Button>
+          <Dialog
+            open={openNewCardDialog}
+            onClose={() => setNewCardDialog(false)}
+            maxWidth="xl"
+          >
+            <NewCard deckId={deckId} setNewCardDialog={setNewCardDialog} />
+          </Dialog>
+        </Authorization>
       </Grid>
       {prepareCards(props.cards)}
     </Grid>
