@@ -1,6 +1,6 @@
 // REACT AND FRIENDS
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 // REDUX
 import { connect } from "react-redux";
@@ -167,15 +167,19 @@ function PlayDeck(props) {
   return (
     <div className={classes.playContainer}>
       <div className={classes.buttonContainer}>
-        <Link to="/">
-          <Button variant="outlined" color="primary" disableElevation>
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              className={classes.iconMargin}
-            />
-            Back to Card Overview
-          </Button>
-        </Link>
+        <Button
+          variant="outlined"
+          color="primary"
+          disableElevation
+          onClick={() => history.push(deckUrl)}
+        >
+          <FontAwesomeIcon
+            icon={faChevronLeft}
+            className={classes.iconMargin}
+          />
+          Back to Card Overview
+        </Button>
+
         <Button
           variant="contained"
           color="secondary"
