@@ -91,7 +91,7 @@ function ViewDeck(props) {
         <h2>{deck.title}</h2>
         {deck.description || <em>this deck has no description</em>}
       </Grid>
-      <Grid item key="toolbar" xs={6}>
+      <Grid item key="toolbar-left" xs={6}>
         {!!props.cards.length && (
           <Button
             component={RouterLink}
@@ -105,7 +105,7 @@ function ViewDeck(props) {
           </Button>
         )}
       </Grid>
-      <Grid item key="toolbar" xs={6}>
+      <Grid item key="toolbar-right" xs={6}>
         <Authorization user={deck.userId}>
           <Button
             // component={RouterLink}
