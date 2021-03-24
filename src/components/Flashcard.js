@@ -1,8 +1,19 @@
 // REACT AND FRIENDS
 import React, { useState, useLayoutEffect } from "react";
 
+// REDUX
+import { connect } from "react-redux";
+import { getCardsFromAPI } from "../actions";
+
 // MATERIAL UI
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 import Card from "@material-ui/core/Card";
+
+// FONTAWESOME
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
 // EXTERNAL IMPORTS
 import clsx from "clsx";
@@ -10,6 +21,7 @@ import { v4 as uuidv4 } from "uuid";
 
 // INTERNAL IMPORTS
 import Stave from "./Stave";
+import Authorization from "./Authorization";
 
 // COMPONENT STYLE
 import { makeStyles } from "@material-ui/core/styles";
@@ -25,6 +37,7 @@ const useStyles = makeStyles({
     justifyContent: "center",
     alignItems: "center",
     cursor: "pointer",
+    position: "relative",
   },
   backOfCard: {
     border: "1px solid #000000",
@@ -32,12 +45,31 @@ const useStyles = makeStyles({
   largeStave: {
     alignSelf: "flex-start",
   },
+  optionsButton: {
+    position: "absolute",
+    top: "0px",
+    right: "0px",
+  },
+  iconMargin: {
+    margin: "0.5rem auto",
+  },
 });
 
-function Flashcard({ flashcard = {}, className }) {
+function Flashcard({
+  flashcard = {},
+  className,
+  showOptions = false,
+  getCardsFromAPI,
+  deckId,
+  flashcardId,
+  setFlashMessage,
+}) {
   const classes = useStyles();
   const { front, back } = flashcard;
   const [isFront, setIsFront] = useState(true);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const deckUrl = `/decks/${deckId}`;
+  const cardUrl = `${process.env.REACT_APP_API_URL}${deckUrl}/cards/${flashcardId}`;
 
   useLayoutEffect(() => {
     setIsFront(true);
@@ -45,6 +77,40 @@ function Flashcard({ flashcard = {}, className }) {
 
   const flipCard = () => {
     setIsFront(!isFront);
+  };
+
+  const handleOptionsClick = (event) => {
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleOptionsClose = (event) => {
+    event.stopPropagation();
+    setAnchorEl(null);
+  };
+
+  const handleFlashcardEdit = (event) => {
+    handleOptionsClose(event);
+  };
+
+  const handleFlashcardDelete = async (event) => {
+    handleOptionsClose(event);
+    const requestOptions = {
+      method: "DELETE",
+      credentials: "include",
+    };
+    const response = await fetch(cardUrl, requestOptions);
+    if (response.status === 200) {
+      getCardsFromAPI(deckId);
+    } else if (response.status === 401) {
+      setFlashMessage("Please log in in order to delete this card.");
+    } else if (response.status === 403) {
+      setFlashMessage("You do not have permission to delete this card.");
+    } else {
+      setFlashMessage(
+        "Something went wrong and we weren't able to delete the card."
+      );
+    }
   };
 
   const prepareLayout = (side) => {
@@ -81,9 +147,37 @@ function Flashcard({ flashcard = {}, className }) {
       variant="outlined"
       onClick={flipCard}
     >
+      {showOptions && (
+        <>
+          <Button
+            className={classes.optionsButton}
+            onClick={(e) => handleOptionsClick(e)}
+            aria-haspopup="true"
+          >
+            <FontAwesomeIcon
+              icon={faEllipsisH}
+              className={classes.iconMargin}
+            />
+          </Button>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            close={(e) => handleOptionsClose(e)}
+          >
+            <MenuItem onClick={(e) => handleFlashcardEdit(e)}>Edit</MenuItem>
+            <MenuItem onClick={(e) => handleFlashcardDelete(e)}>
+              Delete
+            </MenuItem>
+          </Menu>
+        </>
+      )}
       {isFront ? prepareLayout(front) : prepareLayout(back)}
     </Card>
   );
 }
 
-export default Flashcard;
+const mapDispatchToProps = {
+  getCardsFromAPI,
+};
+
+export default connect(null, mapDispatchToProps)(Flashcard);

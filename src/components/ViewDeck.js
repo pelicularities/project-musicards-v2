@@ -1,5 +1,5 @@
 // REACT AND FRIENDS
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 // REDUX
@@ -10,6 +10,7 @@ import { getCardsFromAPI } from "../actions";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
+import Alert from "@material-ui/lab/Alert";
 
 // FONTAWESOME
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +20,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 // EXTERNAL IMPORTS
 
 // INTERNAL IMPORTS
+import UserContext from "../contexts/UserContext";
 import Flashcard from "./Flashcard";
 import Authorization from "./Authorization";
 import NewCard from "./NewCard";
@@ -60,19 +62,29 @@ const useStyles = makeStyles({
 });
 
 function ViewDeck(props) {
+  const { user } = useContext(UserContext);
   const deckId = props.match.params.deckId;
   const [isLoading, setIsLoading] = useState(true);
   const [deck, setDeck] = useState({});
   const [openNewCardDialog, setNewCardDialog] = useState(false);
+  const [flashMessage, setFlashMessage] = useState(null);
   const classes = useStyles();
 
   const prepareCards = (cards) => {
+    const hideOptions = !user || user.id !== deck.userId;
     if (!cards) return "loading...";
     if (!cards.length) return "This deck has no cards :(";
     return cards.map((card) => {
       return (
         <Grid item key={card._id} xs={12} sm={6} md={4} lg={3} xl={2}>
-          <Flashcard key={card._id} flashcard={card} />
+          <Flashcard
+            key={card._id}
+            deckId={deckId}
+            flashcardId={card._id}
+            flashcard={card}
+            setFlashMessage={setFlashMessage}
+            showOptions={!hideOptions}
+          />
         </Grid>
       );
     });
@@ -98,6 +110,7 @@ function ViewDeck(props) {
         <h2>{deck.title}</h2>
         {deck.description || <em>this deck has no description</em>}
       </Grid>
+
       <Grid item key="toolbar-left" xs={6}>
         {!!props.cards.length && (
           <Button
@@ -132,6 +145,13 @@ function ViewDeck(props) {
           </Dialog>
         </Authorization>
       </Grid>
+      {flashMessage && (
+        <Grid item key="flashMessage" xs={12}>
+          <Alert className={classes.bottomSpacing} severity="error">
+            {flashMessage}
+          </Alert>
+        </Grid>
+      )}
       {prepareCards(props.cards)}
     </Grid>
   );
