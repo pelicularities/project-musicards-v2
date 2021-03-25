@@ -21,7 +21,7 @@ import { v4 as uuidv4 } from "uuid";
 
 // INTERNAL IMPORTS
 import Stave from "./Stave";
-import Authorization from "./Authorization";
+import ConfirmDialog from "./ConfirmDialog";
 
 // COMPONENT STYLE
 import { makeStyles } from "@material-ui/core/styles";
@@ -67,7 +67,8 @@ function Flashcard({
   const classes = useStyles();
   const { front, back } = flashcard;
   const [isFront, setIsFront] = useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const deckUrl = `/decks/${deckId}`;
   const cardUrl = `${process.env.REACT_APP_API_URL}${deckUrl}/cards/${flashcardId}`;
 
@@ -85,7 +86,7 @@ function Flashcard({
   };
 
   const handleOptionsClose = (event) => {
-    event.stopPropagation();
+    if (event) event.stopPropagation();
     setAnchorEl(null);
   };
 
@@ -165,9 +166,15 @@ function Flashcard({
             close={(e) => handleOptionsClose(e)}
           >
             <MenuItem onClick={(e) => handleFlashcardEdit(e)}>Edit</MenuItem>
-            <MenuItem onClick={(e) => handleFlashcardDelete(e)}>
-              Delete
-            </MenuItem>
+            <MenuItem onClick={() => setConfirmOpen(true)}>Delete</MenuItem>
+            <ConfirmDialog
+              title="Delete Flashcard?"
+              open={confirmOpen}
+              setOpen={setConfirmOpen}
+              onConfirm={(e) => handleFlashcardDelete(e)}
+            >
+              Are you sure you want to delete this flashcard?
+            </ConfirmDialog>
           </Menu>
         </>
       )}

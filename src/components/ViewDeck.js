@@ -1,5 +1,5 @@
 // REACT AND FRIENDS
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 // REDUX
@@ -98,9 +98,14 @@ function ViewDeck(props) {
       .then((deckJson) => {
         setDeck(deckJson);
         props.getCardsFromAPI(deckId);
-        setIsLoading(false);
+        // setIsLoading(false);
       });
   }, [deckId]);
+
+  useLayoutEffect(() => {
+    // TODO: FIX THIS THING
+    setIsLoading(false);
+  }, [props.cards]);
 
   return isLoading ? (
     <Loader />

@@ -48,7 +48,12 @@ const useStyles = makeStyles({
   },
 });
 
-function NewCard({ deckId, setNewCardDialog, getCardsFromAPI }) {
+function NewCard({
+  deckId,
+  flashcard = {},
+  setNewCardDialog,
+  getCardsFromAPI,
+}) {
   const deckUrl = `/decks/${deckId}`;
   const [flashMessage, setFlashMessage] = useState(null);
   const [front, setFront] = useState("");
