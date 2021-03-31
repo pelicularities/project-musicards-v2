@@ -16,7 +16,7 @@ export const useCurrentUserHook = () => {
     fetch(requestUrl, requestOptions)
       .then((response) => response.json())
       .then((user) => setUser(user))
-      .catch((err) => console.error);
+      .catch(console.error);
   }, []);
 
   return { user, setUser };

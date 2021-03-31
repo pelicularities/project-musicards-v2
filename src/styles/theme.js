@@ -10,7 +10,7 @@ const theme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: '"Helvetica Neue", sans-serif',
+    fontFamily: "'Helvetica Neue', sans-serif",
   },
 });
 
