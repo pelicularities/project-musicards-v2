@@ -84,6 +84,7 @@ function Login({ loginRequired, redirectTo = "/" }) {
       <form className={classes.bottomSpacing}>
         <div>
           <TextField
+            id="username"
             label="Username"
             autoComplete="username"
             autoFocus={true}
@@ -96,6 +97,7 @@ function Login({ loginRequired, redirectTo = "/" }) {
         </div>
         <div>
           <TextField
+            id="password"
             label="Password"
             type="password"
             autoComplete="new-password"

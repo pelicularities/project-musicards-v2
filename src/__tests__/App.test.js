@@ -4,7 +4,8 @@ import { render } from "@testing-library/react";
 
 // INTERNAL IMPORTS
 import App from "../App";
-test("not actually a test", () => {
+
+test("Sanity check: does the page render?", () => {
   const { getByText } = render(<App />);
   const title = getByText(/Musicards/);
   expect(title).toBeInTheDocument();

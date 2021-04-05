@@ -14,7 +14,13 @@ export const useCurrentUserHook = () => {
       },
     };
     fetch(requestUrl, requestOptions)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 200) {
+          response.json();
+        } else {
+          throw new Error("You are not logged in.");
+        }
+      })
       .then((user) => setUser(user))
       .catch(console.error);
   }, []);
