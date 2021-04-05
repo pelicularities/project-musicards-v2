@@ -78,7 +78,7 @@ function ViewDeck(props) {
   const classes = useStyles();
 
   const prepareCards = (cards) => {
-    const hideOptions = !user || user.id !== deck.userId;
+    const isAuthorized = !!user && user.id === deck.userId;
     if (!cards) return "loading...";
     if (!cards.length) return "This deck has no cards :(";
     return cards.map((card) => {
@@ -90,7 +90,7 @@ function ViewDeck(props) {
             flashcardId={card._id}
             flashcard={card}
             setFlashMessage={setFlashMessage}
-            showOptions={!hideOptions}
+            isAuthorized={isAuthorized}
           />
         </Grid>
       );

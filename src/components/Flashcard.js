@@ -7,13 +7,11 @@ import { getCardsFromAPI } from "../actions";
 
 // MATERIAL UI
 import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import Card from "@material-ui/core/Card";
 
 // FONTAWESOME
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 // EXTERNAL IMPORTS
 import clsx from "clsx";
@@ -27,6 +25,9 @@ import ConfirmDialog from "./ConfirmDialog";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
+  wrapper: {
+    position: "relative",
+  },
   flashcard: {
     borderRadius: "0.25rem",
     height: "12rem",
@@ -37,7 +38,6 @@ const useStyles = makeStyles({
     justifyContent: "center",
     alignItems: "center",
     cursor: "pointer",
-    position: "relative",
   },
   backOfCard: {
     border: "1px solid #000000",
@@ -45,7 +45,7 @@ const useStyles = makeStyles({
   largeStave: {
     alignSelf: "flex-start",
   },
-  optionsButton: {
+  deleteButton: {
     position: "absolute",
     top: "0px",
     right: "0px",
@@ -58,7 +58,7 @@ const useStyles = makeStyles({
 function Flashcard({
   flashcard = {},
   className,
-  showOptions = false,
+  isAuthorized = false,
   getCardsFromAPI,
   deckId,
   flashcardId,
@@ -67,7 +67,6 @@ function Flashcard({
   const classes = useStyles();
   const { front, back } = flashcard;
   const [isFront, setIsFront] = useState(true);
-  const [anchorEl, setAnchorEl] = useState(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const deckUrl = `/decks/${deckId}`;
   const cardUrl = `${process.env.REACT_APP_API_URL}${deckUrl}/cards/${flashcardId}`;
@@ -80,22 +79,12 @@ function Flashcard({
     setIsFront(!isFront);
   };
 
-  const handleOptionsClick = (event) => {
-    event.stopPropagation();
-    setAnchorEl(event.currentTarget);
+  const handleDeleteClick = (event) => {
+    event.stopPropagation(event);
+    setConfirmOpen(true);
   };
 
-  const handleOptionsClose = (event) => {
-    if (event) event.stopPropagation();
-    setAnchorEl(null);
-  };
-
-  const handleFlashcardEdit = (event) => {
-    handleOptionsClose(event);
-  };
-
-  const handleFlashcardDelete = async (event) => {
-    handleOptionsClose(event);
+  const handleFlashcardDelete = async () => {
     const requestOptions = {
       method: "DELETE",
       credentials: "include",
@@ -141,45 +130,37 @@ function Flashcard({
   };
 
   return (
-    <Card
-      className={clsx(className, classes.flashcard, {
-        [classes.backOfCard]: !isFront,
-      })}
-      variant="outlined"
-      onClick={flipCard}
-    >
-      {showOptions && (
+    <div className={classes.wrapper}>
+      <Card
+        className={clsx(className, classes.flashcard, {
+          [classes.backOfCard]: !isFront,
+        })}
+        variant="outlined"
+        onClick={flipCard}
+      >
+        {isFront ? prepareLayout(front) : prepareLayout(back)}
+      </Card>
+      {isAuthorized && (
         <>
           <Button
-            className={classes.optionsButton}
-            onClick={(e) => handleOptionsClick(e)}
+            className={classes.deleteButton}
+            onClick={(e) => handleDeleteClick(e)}
             aria-haspopup="true"
           >
-            <FontAwesomeIcon
-              icon={faEllipsisH}
-              className={classes.iconMargin}
-            />
+            <FontAwesomeIcon icon={faTrash} className={classes.iconMargin} />
           </Button>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            close={(e) => handleOptionsClose(e)}
+
+          <ConfirmDialog
+            title="Delete Flashcard?"
+            open={confirmOpen}
+            setOpen={setConfirmOpen}
+            onConfirm={(e) => handleFlashcardDelete(e)}
           >
-            <MenuItem onClick={(e) => handleFlashcardEdit(e)}>Edit</MenuItem>
-            <MenuItem onClick={() => setConfirmOpen(true)}>Delete</MenuItem>
-            <ConfirmDialog
-              title="Delete Flashcard?"
-              open={confirmOpen}
-              setOpen={setConfirmOpen}
-              onConfirm={(e) => handleFlashcardDelete(e)}
-            >
-              Are you sure you want to delete this flashcard?
-            </ConfirmDialog>
-          </Menu>
+            Are you sure you want to delete this flashcard?
+          </ConfirmDialog>
         </>
       )}
-      {isFront ? prepareLayout(front) : prepareLayout(back)}
-    </Card>
+    </div>
   );
 }
 
