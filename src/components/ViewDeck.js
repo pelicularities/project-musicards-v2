@@ -1,6 +1,6 @@
 // REACT AND FRIENDS
 import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Redirect, Link as RouterLink } from "react-router-dom";
 
 // REDUX
 import { connect } from "react-redux";
@@ -14,8 +14,7 @@ import Alert from "@material-ui/lab/Alert";
 
 // FONTAWESOME
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 // EXTERNAL IMPORTS
 
@@ -25,6 +24,8 @@ import Flashcard from "./Flashcard";
 import Authorization from "./Authorization";
 import NewCard from "./NewCard";
 import Loader from "./Loader";
+import WarningButton from "./WarningButton";
+import ConfirmDialog from "./ConfirmDialog";
 
 // THEMING
 import theme from "../styles/theme";
@@ -59,15 +60,21 @@ const useStyles = makeStyles({
   iconMargin: {
     marginRight: "0.5rem",
   },
+  warningButton: {
+    marginLeft: "1rem",
+  },
 });
 
 function ViewDeck(props) {
   const { user } = useContext(UserContext);
   const deckId = props.match.params.deckId;
+  const deckQueryUrl = `${process.env.REACT_APP_API_URL}/decks/${deckId}`;
   const [isLoading, setIsLoading] = useState(true);
   const [deck, setDeck] = useState({});
   const [openNewCardDialog, setNewCardDialog] = useState(false);
+  const [openDeleteDialog, setDeleteDialog] = useState(false);
   const [flashMessage, setFlashMessage] = useState(null);
+  const [redirectToAllDecks, setRedirectToAllDecks] = useState(false);
   const classes = useStyles();
 
   const prepareCards = (cards) => {
@@ -92,7 +99,6 @@ function ViewDeck(props) {
 
   useEffect(() => {
     setIsLoading(true);
-    const deckQueryUrl = `${process.env.REACT_APP_API_URL}/decks/${deckId}`;
     fetch(deckQueryUrl)
       .then((response) => response.json())
       .then((deckJson) => {
@@ -101,6 +107,25 @@ function ViewDeck(props) {
         // setIsLoading(false);
       });
   }, [deckId]);
+
+  const handleDeckDelete = async () => {
+    const requestOptions = {
+      method: "DELETE",
+      credentials: "include",
+    };
+    const response = await fetch(deckQueryUrl, requestOptions);
+    if (response.status === 200) {
+      setRedirectToAllDecks(true);
+    } else if (response.status === 401) {
+      setFlashMessage("Please log in in order to delete this deck.");
+    } else if (response.status === 403) {
+      setFlashMessage("You do not have permission to delete this deck.");
+    } else {
+      setFlashMessage(
+        "Something went wrong and we weren't able to delete the deck."
+      );
+    }
+  };
 
   useLayoutEffect(() => {
     // TODO: FIX THIS THING
@@ -111,6 +136,7 @@ function ViewDeck(props) {
     <Loader />
   ) : (
     <Grid container spacing={2}>
+      {redirectToAllDecks && <Redirect to="/decks" />}
       <Grid item key="deckInfo" xs={12}>
         <h2>{deck.title}</h2>
         {deck.description || <em>this deck has no description</em>}
@@ -148,6 +174,23 @@ function ViewDeck(props) {
           >
             <NewCard deckId={deckId} setNewCardDialog={setNewCardDialog} />
           </Dialog>
+          <WarningButton
+            variant="outlined"
+            className={classes.warningButton}
+            disableElevation
+            onClick={() => setDeleteDialog(true)}
+          >
+            <FontAwesomeIcon icon={faTrash} className={classes.iconMargin} />{" "}
+            Delete Deck
+          </WarningButton>
+          <ConfirmDialog
+            title="Delete Deck?"
+            open={openDeleteDialog}
+            setOpen={setDeleteDialog}
+            onConfirm={handleDeckDelete}
+          >
+            Are you sure you want to delete this deck?
+          </ConfirmDialog>
         </Authorization>
       </Grid>
       {flashMessage && (

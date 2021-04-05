@@ -8,8 +8,7 @@ import store from "./store";
 
 // THEMING
 import theme from "./styles/theme";
-import { ThemeProvider } from "@material-ui/core/styles";
-import { makeStyles } from "@material-ui/core/styles";
+import { ThemeProvider, makeStyles } from "@material-ui/core/styles";
 
 // EXTERNAL COMPONENTS
 

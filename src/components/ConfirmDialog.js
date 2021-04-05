@@ -8,7 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-function ConfirmDialog({ title, content, open, setOpen, onConfirm }) {
+function ConfirmDialog({ title, children, open, setOpen, onConfirm }) {
   return (
     <Dialog
       open={open}
@@ -16,7 +16,7 @@ function ConfirmDialog({ title, content, open, setOpen, onConfirm }) {
       aria-labelledby="confirm-dialog"
     >
       <DialogTitle id="confirm-dialog">{title}</DialogTitle>
-      <DialogContent>{content}</DialogContent>
+      <DialogContent>{children}</DialogContent>
       <DialogActions>
         <Button
           variant="contained"
