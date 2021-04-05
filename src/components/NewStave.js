@@ -159,7 +159,7 @@ function NewStave({
       // unfortunately, the parser simply uses /[0-9]+/
       // so we need to stop some cases like /3 and /7
       // from reaching the parser, which will throw an error
-      const regexp = /(?!\/(32|64))\/(3|5|6|7|9|0)/;
+      const regexp = /(?!\/(1|2|4|8|16|32|64|128)\b)\/\d+/;
       if (!regexp.test(notes)) {
         // cool, now we can actually use the parser
         // to determine if notes are actually valid
