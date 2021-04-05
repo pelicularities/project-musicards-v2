@@ -16,7 +16,7 @@ export const useCurrentUserHook = () => {
     fetch(requestUrl, requestOptions)
       .then((response) => {
         if (response.status === 200) {
-          response.json();
+          return response.json();
         } else {
           throw new Error("You are not logged in.");
         }
