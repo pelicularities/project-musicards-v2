@@ -128,7 +128,6 @@ function ViewDeck(props) {
   };
 
   useLayoutEffect(() => {
-    // TODO: FIX THIS THING
     setIsLoading(false);
   }, [props.cards]);
 

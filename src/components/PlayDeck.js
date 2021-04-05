@@ -1,5 +1,5 @@
 // REACT AND FRIENDS
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 // REDUX
@@ -23,6 +23,7 @@ import {
 
 // INTERNAL IMPORTS
 import PlayReport from "./PlayReport";
+import Loader from "./Loader";
 
 // THEMING
 import { makeStyles } from "@material-ui/core/styles";
@@ -72,6 +73,7 @@ function PlayDeck(props) {
   const deckUrl = `/decks/${deckId}`;
   const classes = useStyles();
   const history = useHistory();
+  const [isLoading, setIsLoading] = useState(true);
   const [playthrough, setPlaythrough] = useState(
     props.cards.map((flashcard) => {
       return {
@@ -86,11 +88,16 @@ function PlayDeck(props) {
   const [deckComplete, setDeckComplete] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     props.getCardsFromAPI(deckId);
     if (!props.cards || !props.cards.length) {
       history.push(deckUrl);
     }
   }, []);
+
+  useLayoutEffect(() => {
+    setIsLoading(false);
+  }, [props.cards]);
 
   const checkComplete = () => {
     if (countCorrect() === props.cards.length) setDeckComplete(true);
@@ -164,7 +171,9 @@ function PlayDeck(props) {
     setDeckComplete(false);
   };
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div className={classes.playContainer}>
       <div className={classes.buttonContainer}>
         <Button
