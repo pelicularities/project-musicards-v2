@@ -64,7 +64,6 @@ function Login({ loginRequired, redirectTo = "/" }) {
     const response = await fetch(requestUrl, requestOptions);
     if (response.status === 200) {
       const json = await response.json();
-      console.log(json);
       setUser(json);
       setRedirect(true);
     } else {
