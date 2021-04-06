@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-// The above line is needed to prevent re-declaration of fetchMock,
+// The above line is needed to avoid re-declaration of fetchMock,
 // which is already declared in setupTests.js
 
 // REACT AND FRIENDS
@@ -17,8 +17,8 @@ describe("App", () => {
     };
     fetchMock.mockOnce(JSON.stringify(mockUser));
     const { getByText } = render(<App />);
-    const title = getByText(/Musicards/);
     await waitFor(() => {
+      const title = getByText(/Musicards/);
       expect(title).toBeInTheDocument();
     });
   });

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-// The above line is needed to prevent re-declaration of fetchMock,
+// The above line is needed to avoid re-declaration of fetchMock,
 // which is already declared in setupTests.js
 
 // Note: Need a break from this one, will get back to it later
@@ -11,7 +11,7 @@
 // REACT AND FRIENDS
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, waitFor } from "@testing-library/react";
 import { renderHook, act } from "@testing-library/react-hooks";
 
 // EXTERNAL IMPORTS
@@ -23,33 +23,31 @@ import Login from "../components/Login";
 import LandingPage from "../components/LandingPage";
 
 xdescribe("Login component", () => {
-  const mockUser = {
-    id: "000000000000000000000000",
-    name: "mocktest",
-  };
-  const LoginContext = () => (
-    <UserContext.Provider value={null}>
+  const { user, setUser } = renderHook(() => useCurrentUserHook());
+  const LoginContext = (
+    <UserContext.Provider value={{ user, setUser }}>
       <BrowserRouter>
         <Login />
         <Route exact path="/" render={() => <LandingPage />} />
       </BrowserRouter>
     </UserContext.Provider>
   );
-  const { renderUserContext } = renderHook(() => useCurrentUserHook(), {
-    LoginContext,
-  });
-  beforeEach(() => {
-    fetchMock.mockClear();
-    fetchMock.doMock();
-    fetchMock.mockResponseOnce(JSON.stringify(mockUser));
-  });
 
-  test("Login component renders properly", () => {
-    const { getByLabelText } = render(LoginContext);
-    const usernameField = getByLabelText("Username");
-    const passwordField = getByLabelText("Password");
-    expect(usernameField).toBeInTheDocument();
-    expect(passwordField).toBeInTheDocument();
+  beforeEach(() => {
+    const mockUser = {
+      id: "000000000000000000000000",
+      name: "mocktest",
+    };
+    fetchMock.mockOnce(JSON.stringify(mockUser));
+  });
+  test("Login component renders properly", async () => {
+    await waitFor(() => {
+      const { getByLabelText } = render(LoginContext);
+      const usernameField = getByLabelText("Username");
+      const passwordField = getByLabelText("Password");
+      expect(usernameField).toBeInTheDocument();
+      expect(passwordField).toBeInTheDocument();
+    });
   });
 
   test("Invalid login produces error message", () => {

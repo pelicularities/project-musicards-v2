@@ -116,7 +116,8 @@ function AllDecks() {
       .then((json) => {
         setDecks(json);
         setIsLoading(false);
-      });
+      })
+      .catch(console.error);
   }, []);
 
   return isLoading ? (
