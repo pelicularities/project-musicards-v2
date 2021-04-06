@@ -1,4 +1,7 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+// The above line is needed to prevent re-declaration of fetchMock,
+// which is already declared in setupTests.js
 
 // Note: Need a break from this one, will get back to it later
 // Two separate issues:
@@ -12,7 +15,6 @@ import { fireEvent, render } from "@testing-library/react";
 import { renderHook, act } from "@testing-library/react-hooks";
 
 // EXTERNAL IMPORTS
-import fetchMock from "jest-fetch-mock";
 
 // INTERNAL IMPORTS
 import UserContext from "../contexts/UserContext";
